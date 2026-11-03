@@ -1,4 +1,4 @@
-namespace SmartShop.Domain.Telemetry;
+namespace SmartShop.Models;
 
 /// <summary>
 /// Threshold configuration for a single sensor. Values are read from

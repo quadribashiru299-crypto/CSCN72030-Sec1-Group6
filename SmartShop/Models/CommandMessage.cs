@@ -1,4 +1,4 @@
-namespace SmartShop.Domain.Telemetry;
+namespace SmartShop.Models;
 
 /// <summary>
 /// A staff supervisory override command sent to a controller/actuator.

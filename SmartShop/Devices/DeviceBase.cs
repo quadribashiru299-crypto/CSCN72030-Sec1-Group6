@@ -1,4 +1,4 @@
-namespace SmartShop.Domain.Devices;
+namespace SmartShop.Devices;
 
 /// <summary>
 /// Abstract base for every device in the store — both sensors (read-only)

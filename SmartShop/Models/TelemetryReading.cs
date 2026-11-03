@@ -1,4 +1,4 @@
-namespace SmartShop.Domain.Telemetry;
+namespace SmartShop.Models;
 
 /// <summary>
 /// A single sensor reading parsed from the ASCII simulation file.

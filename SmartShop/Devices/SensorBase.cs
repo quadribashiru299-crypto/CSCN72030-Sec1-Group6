@@ -1,6 +1,6 @@
-using SmartShop.Domain.Telemetry;
+using SmartShop.Models;
 
-namespace SmartShop.Domain.Devices;
+namespace SmartShop.Devices;
 
 /// <summary>
 /// Abstract base for all read-only sensors. Concrete sensors (StoreTemperature,
