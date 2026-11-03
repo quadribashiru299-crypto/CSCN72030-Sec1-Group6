@@ -1,0 +1,64 @@
+# SmartShop sensor simulation data (ASCII) — sample for US-TEL-01
+# Format: timestamp|sensorId|value|unit|label
+# One time step = 8 lines; timestamps advance 5s per step.
+# This is a 6-step sample; the production file has 60 looping steps.
+
+# --- Step 0: all normal ---
+2026-10-14T08:00:00Z|StoreTemperatureSensor|21.0|C|Store Temperature
+2026-10-14T08:00:00Z|RefrigeratorTemperature|2.9|C|Refrigerator Temperature
+2026-10-14T08:00:00Z|CheckoutSensor|2|count|Checkout Activity
+2026-10-14T08:00:00Z|ShelfStockSensor|83|%|Shelf Stock Level
+2026-10-14T08:00:00Z|OccupancySensor|9|count|Store Occupancy
+2026-10-14T08:00:00Z|ShockSensor|0|bool|Shock / Vibration
+2026-10-14T08:00:00Z|SmokeDetector|0|bool|Smoke Detector
+2026-10-14T08:00:00Z|AlarmSensor|0|bool|Emergency Alarm
+
+# --- Step 1: store temp creeping up ---
+2026-10-14T08:00:05Z|StoreTemperatureSensor|22.5|C|Store Temperature
+2026-10-14T08:00:05Z|RefrigeratorTemperature|3.1|C|Refrigerator Temperature
+2026-10-14T08:00:05Z|CheckoutSensor|2|count|Checkout Activity
+2026-10-14T08:00:05Z|ShelfStockSensor|61|%|Shelf Stock Level
+2026-10-14T08:00:05Z|OccupancySensor|12|count|Store Occupancy
+2026-10-14T08:00:05Z|ShockSensor|0|bool|Shock / Vibration
+2026-10-14T08:00:05Z|SmokeDetector|0|bool|Smoke Detector
+2026-10-14T08:00:05Z|AlarmSensor|0|bool|Emergency Alarm
+
+# --- Step 2: store temp WARNING (>23), occupancy WARNING (>15) ---
+2026-10-14T08:00:10Z|StoreTemperatureSensor|24.0|C|Store Temperature
+2026-10-14T08:00:10Z|RefrigeratorTemperature|3.4|C|Refrigerator Temperature
+2026-10-14T08:00:10Z|CheckoutSensor|5|count|Checkout Activity
+2026-10-14T08:00:10Z|ShelfStockSensor|18|%|Shelf Stock Level
+2026-10-14T08:00:10Z|OccupancySensor|17|count|Store Occupancy
+2026-10-14T08:00:10Z|ShockSensor|0|bool|Shock / Vibration
+2026-10-14T08:00:10Z|SmokeDetector|0|bool|Smoke Detector
+2026-10-14T08:00:10Z|AlarmSensor|0|bool|Emergency Alarm
+
+# --- Step 3: fridge WARNING (>4), shelf stock CRITICAL (<10) ---
+2026-10-14T08:00:15Z|StoreTemperatureSensor|25.5|C|Store Temperature
+2026-10-14T08:00:15Z|RefrigeratorTemperature|4.5|C|Refrigerator Temperature
+2026-10-14T08:00:15Z|CheckoutSensor|3|count|Checkout Activity
+2026-10-14T08:00:15Z|ShelfStockSensor|8|%|Shelf Stock Level
+2026-10-14T08:00:15Z|OccupancySensor|19|count|Store Occupancy
+2026-10-14T08:00:15Z|ShockSensor|0|bool|Shock / Vibration
+2026-10-14T08:00:15Z|SmokeDetector|0|bool|Smoke Detector
+2026-10-14T08:00:15Z|AlarmSensor|0|bool|Emergency Alarm
+
+# --- Step 4: smoke CRITICAL (=1), alarm ACTIVATES (=1) ---
+2026-10-14T08:00:20Z|StoreTemperatureSensor|27.0|C|Store Temperature
+2026-10-14T08:00:20Z|RefrigeratorTemperature|5.2|C|Refrigerator Temperature
+2026-10-14T08:00:20Z|CheckoutSensor|1|count|Checkout Activity
+2026-10-14T08:00:20Z|ShelfStockSensor|5|%|Shelf Stock Level
+2026-10-14T08:00:20Z|OccupancySensor|22|count|Store Occupancy
+2026-10-14T08:00:20Z|ShockSensor|0|bool|Shock / Vibration
+2026-10-14T08:00:20Z|SmokeDetector|1|bool|Smoke Detector
+2026-10-14T08:00:20Z|AlarmSensor|1|bool|Emergency Alarm
+
+# --- Step 5: recovery ---
+2026-10-14T08:00:25Z|StoreTemperatureSensor|22.0|C|Store Temperature
+2026-10-14T08:00:25Z|RefrigeratorTemperature|3.0|C|Refrigerator Temperature
+2026-10-14T08:00:25Z|CheckoutSensor|2|count|Checkout Activity
+2026-10-14T08:00:25Z|ShelfStockSensor|45|%|Shelf Stock Level
+2026-10-14T08:00:25Z|OccupancySensor|10|count|Store Occupancy
+2026-10-14T08:00:25Z|ShockSensor|0|bool|Shock / Vibration
+2026-10-14T08:00:25Z|SmokeDetector|0|bool|Smoke Detector
+2026-10-14T08:00:25Z|AlarmSensor|0|bool|Emergency Alarm
