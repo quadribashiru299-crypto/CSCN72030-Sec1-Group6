@@ -16,7 +16,7 @@ public abstract class DeviceBase
     /// <summary>Device category: "Sensor" or "Controller".</summary>
     public string DeviceType { get; set; } = "";
 
-    /// <summary>False when the simulation file could not be read (REQ-TEL-003).</summary>
+    /// <summary>False when the simulation file could not be read.</summary>
     public bool IsOnline { get; set; } = true;
 
     /// <summary>Last time the device produced a reading or accepted a command.</summary>

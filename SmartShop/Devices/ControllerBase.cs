@@ -1,18 +1,16 @@
-using SmartShop.Models;
-
 namespace SmartShop.Devices;
 
 /// <summary>
 /// Abstract base for all controllable actuators (lighting, ventilation,
-/// checkout station, entrance lock, alarm). Concrete controllers override
-/// <see cref="SendCommand"/> and <see cref="SupportedCommands"/> to define
-/// which operations they accept.
+/// checkout station, entrance lock, alarm). Concrete controllers inherit
+/// from this class. The command message structure is defined separately
+/// by the Telemetry module owner.
 /// </summary>
 public abstract class ControllerBase : DeviceBase
 {
     protected ControllerBase() => DeviceType = "Controller";
 
-    /// <summary>Current state string, e.g. "ON", "OFF", "LOCKED", "INACTIVE", "SET:22".</summary>
+    /// <summary>Current state string, e.g. "ON", "OFF", "LOCKED", "INACTIVE".</summary>
     public string State { get; set; } = "OFF";
 
     /// <summary>The last command string that was accepted.</summary>
@@ -20,14 +18,4 @@ public abstract class ControllerBase : DeviceBase
 
     /// <summary>When the last command was received (UTC).</summary>
     public DateTime? LastCommandAt { get; set; }
-
-    /// <summary>List of command strings this controller accepts, e.g. ["ON","OFF"] for lighting.</summary>
-    public abstract IEnumerable<string> SupportedCommands { get; }
-
-    /// <summary>
-    /// Applies a staff supervisory override. Returns true if the command was
-    /// accepted and state changed; false if the command is not supported.
-    /// Implementations must update <see cref="State"/> and <see cref="LastCommand"/>.
-    /// </summary>
-    public abstract bool SendCommand(CommandMessage command);
 }
