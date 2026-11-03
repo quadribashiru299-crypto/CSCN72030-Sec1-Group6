@@ -1,0 +1,16 @@
+## Build and binary output directories
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+
+## Visual Studio temporary and cache files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Database & temporary test logs
+*.db-shm
+*.db-wal
+TestResults/
