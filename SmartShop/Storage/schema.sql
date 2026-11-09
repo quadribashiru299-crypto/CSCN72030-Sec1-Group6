@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS EventLog (
     EventId INTEGER PRIMARY KEY,
     DeviceId INTEGER NOT NULL,
     Timestamp TEXT NOT NULL,
-    Value REAL NOT NULL,
+    Value REAL,
     Unit TEXT NOT NULL,
     Status TEXT NOT NULL CHECK (Status IN ('Normal', 'Warning', 'Critical')),
     IsDataAvailable INTEGER NOT NULL CHECK (IsDataAvailable IN (0, 1))
