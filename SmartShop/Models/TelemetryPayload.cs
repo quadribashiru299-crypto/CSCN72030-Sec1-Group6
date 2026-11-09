@@ -19,7 +19,7 @@ public class TelemetryPayload
 {
     public DateTime Timestamp { get; init; } = DateTime.Now;
 	public int DeviceId { get; init; }
-	public double Value { get; init; }
+	public double? Value { get; init; }
 	public string Unit { get; init; }
     public DeviceStatus Status { get; init; }
     public bool IsDataAvailable { get; init; }
@@ -35,7 +35,7 @@ public class TelemetryPayload
     /// Flag indicating whether reading is fresh and valid. Defaults to true; 
     /// set to false on file read or validation errors (REQ-TEL-003, REQ-NFR-REL-001)
     /// </param>
-    public TelemetryPayload(int deviceId, double value, string unit, DeviceStatus status, bool isDataAvailable = true)
+    public TelemetryPayload(int deviceId, double? value, string unit, DeviceStatus status, bool isDataAvailable = true)
     {
         DeviceId = deviceId;
         Value = value;
