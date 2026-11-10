@@ -12,8 +12,8 @@ CREATE TABLE IF NOT EXISTS EventLog (
     Value REAL,
     Unit TEXT NOT NULL,
     Status TEXT NOT NULL CHECK (Status IN ('Normal', 'Warning', 'Critical')),
-    IsDataAvailable INTEGER NOT NULL CHECK (IsDataAvailable IN (0, 1))
-);
+    IsDataAvailable INTEGER NOT NULL CHECK (IsDataAvailable IN (0, 1)),
+    Message TEXT);
 
 CREATE TABLE IF NOT EXISTS AuditTrail (
     AuditId INTEGER PRIMARY KEY,
