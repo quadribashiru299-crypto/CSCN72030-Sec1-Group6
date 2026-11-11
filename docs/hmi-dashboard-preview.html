@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SmartShop HMI dashboard preview</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, -apple-system, Segoe UI, sans-serif; background: #0b1220; color: #e6edf7; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    .shell { max-width: 1500px; margin: auto; padding: 24px; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid #304158; padding-bottom: 18px; }
+    .eyebrow { margin: 0 0 4px; color: #8ab9f8; font-size: .8rem; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(1.7rem, 3vw, 2.4rem); }
+    h2 { margin: 0 0 16px; font-size: 1.2rem; }
+    h3 { margin: 0; font-size: 1.05rem; }
+    p { line-height: 1.5; }
+    .meta { text-align: right; color: #b8c7dc; font-size: .9rem; }
+    .meta strong { display: block; color: #edf4ff; }
+    .notice { margin: 20px 0; padding: 13px 16px; background: #223c59; border: 1px solid #507aa4; border-radius: 10px; color: #edf4ff; }
+    .notice strong { color: white; }
+    .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 22px 0 32px; }
+    .summary article, .tile, .history { background: #152237; border: 1px solid #304158; border-radius: 12px; }
+    .summary article { padding: 16px; border-top: 4px solid var(--accent); }
+    .summary .number { font-size: 2rem; font-weight: 750; display: block; }
+    .summary .label { color: #b8c7dc; }
+    section { margin: 30px 0; }
+    .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+    .section-head p { color: #aebed4; margin: 0 0 16px; font-size: .9rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .tile { padding: 18px; min-height: 196px; display: flex; flex-direction: column; gap: 12px; border-top: 4px solid var(--accent); }
+    .tile-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .id { color: #95a8c2; font-size: .76rem; overflow-wrap: anywhere; margin-top: 4px; }
+    .value { font-size: 1.6rem; font-weight: 750; line-height: 1.2; }
+    .value small { font-size: .9rem; font-weight: 500; color: #b8c7dc; }
+    .badges { display: flex; flex-wrap: wrap; gap: 7px; }
+    .badge { border: 1px solid currentColor; border-radius: 100px; padding: 4px 9px; font-size: .77rem; font-weight: 700; }
+    .available, .normal, .success { color: #78d9a0; }
+    .warning, .stale, .pending { color: #ffd077; }
+    .critical, .unavailable, .failed { color: #ff938d; }
+    .na { color: #b7c8de; }
+    .tile footer { color: #aebed4; font-size: .79rem; margin-top: auto; }
+    .tile footer time { color: #d8e5f5; }
+    .tile.warning-card { --accent: #f0b44f; }
+    .tile.critical-card { --accent: #ed6a67; }
+    .tile.unknown-card { --accent: #8495a9; }
+    .tile.normal-card { --accent: #51bd80; }
+    .tile.actuator { --accent: #6da8f0; }
+    .control { border-top: 1px solid #34445c; padding-top: 12px; }
+    .control p { font-size: .84rem; color: #b8c7dc; margin: 0 0 10px; }
+    .buttons { display: flex; gap: 8px; }
+    button { background: #315779; color: #dcefff; border: 1px solid #6789ae; border-radius: 7px; padding: 8px 12px; font: inherit; font-size: .83rem; font-weight: 700; }
+    button:disabled { opacity: .65; cursor: not-allowed; }
+    .history { padding: 20px; }
+    .history p { color: #b8c7dc; margin: 0; }
+    .history table { width: 100%; border-collapse: collapse; font-size: .85rem; margin-top: 16px; }
+    .history th, .history td { text-align: left; padding: 10px 8px; border-bottom: 1px solid #34445c; }
+    .history th { color: #aebed4; }
+    .scroll { overflow-x: auto; }
+    .site-footer { color: #94a6bf; font-size: .8rem; padding: 12px 0 32px; }
+    @media (max-width: 700px) { .shell { padding: 16px; } header { align-items: flex-start; flex-direction: column; } .meta { text-align: left; } .summary { grid-template-columns: repeat(2, 1fr); } .section-head { display: block; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div><p class="eyebrow">SmartShop / SCADA HMI</p><h1>Store operations</h1></div>
+      <div class="meta"><strong>Administrator preview</strong>Sample snapshot · <time datetime="2026-11-11T06:00:00Z">11 Nov 2026, 06:00:00 UTC</time></div>
+    </header>
+
+    <div class="notice" role="note"><strong>Design preview:</strong> These are sample readings. This file is not connected to simulation files, authentication, command dispatch, or SQLite. Controls below are disabled.</div>
+
+    <div class="summary" aria-label="Sensor condition summary">
+      <article style="--accent:#51bd80"><span class="number">4</span><span class="label">Normal sensors</span></article>
+      <article style="--accent:#f0b44f"><span class="number">1</span><span class="label">Warning sensor</span></article>
+      <article style="--accent:#ed6a67"><span class="number">1</span><span class="label">Critical sensor</span></article>
+      <article style="--accent:#8495a9"><span class="number">1</span><span class="label">Unknown sensor</span></article>
+    </div>
+
+    <section aria-labelledby="sensors-heading">
+      <div class="section-head"><h2 id="sensors-heading">Monitored signals · 7 sensors</h2><p>Condition and data quality are shown separately.</p></div>
+      <div class="grid">
+        <article class="tile normal-card"><div class="tile-top"><div><h3>Store temperature</h3><div class="id">StoreTemperatureSensor</div></div></div><div class="value">22.4 <small>°C</small></div><div class="badges"><span class="badge normal">Normal</span><span class="badge available">Available</span></div><footer>Received <time datetime="2026-11-11T05:59:59Z">05:59:59 UTC</time></footer></article>
+        <article class="tile normal-card"><div class="tile-top"><div><h3>Refrigerator temperature</h3><div class="id">RefrigeratorTemperature</div></div></div><div class="value">3.6 <small>°C</small></div><div class="badges"><span class="badge normal">Normal</span><span class="badge available">Available</span></div><footer>Received <time datetime="2026-11-11T05:59:59Z">05:59:59 UTC</time></footer></article>
+        <article class="tile warning-card"><div class="tile-top"><div><h3>Shelf stock</h3><div class="id">ShelfStockSensor</div></div></div><div class="value">14 <small>items</small></div><div class="badges"><span class="badge warning">Warning</span><span class="badge available">Available</span></div><footer>Received <time datetime="2026-11-11T05:59:59Z">05:59:59 UTC</time></footer></article>
+        <article class="tile critical-card"><div class="tile-top"><div><h3>Store occupancy</h3><div class="id">OccupancySensor</div></div></div><div class="value">86 <small>people</small></div><div class="badges"><span class="badge critical">Critical</span><span class="badge available">Available</span></div><footer>Received <time datetime="2026-11-11T05:59:59Z">05:59:59 UTC</time> · Manual operator response</footer></article>
+        <article class="tile normal-card"><div class="tile-top"><div><h3>Checkout activity</h3><div class="id">CheckoutSensor</div></div></div><div class="value">Ready</div><div class="badges"><span class="badge normal">Normal</span><span class="badge available">Available</span></div><footer>Received <time datetime="2026-11-11T05:59:59Z">05:59:59 UTC</time></footer></article>
+        <article class="tile normal-card"><div class="tile-top"><div><h3>Showcase shock</h3><div class="id">ShockSensor</div></div></div><div class="value">0.1 <small>g</small></div><div class="badges"><span class="badge normal">Normal</span><span class="badge available">Available</span></div><footer>Received <time datetime="2026-11-11T05:59:59Z">05:59:59 UTC</time></footer></article>
+        <article class="tile unknown-card"><div class="tile-top"><div><h3>Smoke detection</h3><div class="id">SmokeDetector</div></div></div><div class="value">Last known: Clear</div><div class="badges"><span class="badge na">Unknown</span><span class="badge stale">Stale</span></div><footer>Last valid <time datetime="2026-11-11T05:59:54Z">05:59:54 UTC</time> · Reading over 3 seconds old</footer></article>
+      </div>
+    </section>
+
+    <section aria-labelledby="actuators-heading">
+      <div class="section-head"><h2 id="actuators-heading">Controlled devices · 5 actuators</h2><p>State changes only after command confirmation.</p></div>
+      <div class="grid">
+        <article class="tile actuator"><div><h3>Lighting</h3><div class="id">LightingController</div></div><div class="value">On</div><div class="badges"><span class="badge available">Available</span><span class="badge na">Condition: N/A</span></div><footer>Confirmed <time datetime="2026-11-11T05:59:59Z">05:59:59 UTC</time></footer></article>
+        <article class="tile actuator"><div><h3>Ventilation / HVAC</h3><div class="id">VentilationController</div></div><div class="value">Auto</div><div class="badges"><span class="badge available">Available</span><span class="badge na">Condition: N/A</span></div><footer>Confirmed <time datetime="2026-11-11T05:59:59Z">05:59:59 UTC</time></footer></article>
+        <article class="tile actuator"><div><h3>Entrance lock</h3><div class="id">EntranceLockController</div></div><div class="value">Unlocked</div><div class="badges"><span class="badge available">Available</span><span class="badge na">Condition: N/A</span></div><footer>Confirmed <time datetime="2026-11-11T05:59:59Z">05:59:59 UTC</time> · No manual override</footer><div class="control"><p>Administrator command · last outcome: None</p><div class="buttons"><button disabled title="Preview only">Lock</button><button disabled title="Preview only">Unlock</button></div></div></article>
+        <article class="tile actuator"><div><h3>Checkout station</h3><div class="id">CheckoutStationController</div></div><div class="value">Enabled</div><div class="badges"><span class="badge available">Available</span><span class="badge na">Condition: N/A</span></div><footer>Confirmed <time datetime="2026-11-11T05:59:59Z">05:59:59 UTC</time></footer></article>
+        <article class="tile actuator"><div><h3>Alarm</h3><div class="id">AlarmController</div></div><div class="value">Off</div><div class="badges"><span class="badge available">Available</span><span class="badge na">Condition: N/A</span></div><footer>Confirmed <time datetime="2026-11-11T05:59:59Z">05:59:59 UTC</time></footer></article>
+      </div>
+    </section>
+
+    <section class="history" aria-labelledby="history-heading"><h2 id="history-heading">Event and command history preview</h2><p>In the application, this area will filter server-provided events and audit records by device and UTC time range.</p><div class="scroll"><table><thead><tr><th scope="col">UTC time</th><th scope="col">Device</th><th scope="col">Event</th><th scope="col">Outcome</th></tr></thead><tbody><tr><td>05:59:59</td><td>OccupancySensor</td><td>Entered Critical</td><td>Recorded</td></tr><tr><td>05:59:56</td><td>SmokeDetector</td><td>No fresh sample for over 3 seconds</td><td>Stale · last known retained</td></tr></tbody></table></div></section>
+    <footer class="site-footer">Layout preview for team review · revised SmartShop SRS, 10 November 2026 · 7 sensors + 5 actuators</footer>
+  </main>
+</body>
+</html>
