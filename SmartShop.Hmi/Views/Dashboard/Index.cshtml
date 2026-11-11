@@ -1,0 +1,42 @@
+@model DashboardSnapshot
+@{
+    Layout = null;
+    ViewData["Title"] = "SmartShop HMI";
+}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>@ViewData["Title"]</title>
+  <link rel="stylesheet" href="~/css/hmi.css" />
+</head>
+<body>
+<main class="shell">
+  <header>
+    <div><p class="eyebrow">SmartShop / SCADA HMI</p><h1>Store operations</h1></div>
+    <div class="meta"><strong>Live dashboard scaffold</strong>Updated <time id="updated">@Model.GeneratedAtUtc.ToString("u")</time></div>
+  </header>
+  <div class="notice" role="status">Waiting for the team's acquisition service to publish device readings. Lock commands are disabled until authentication, dispatch and audit are connected.</div>
+  <div class="summary" aria-label="Sensor condition summary">
+    @foreach (var condition in new[] { "Normal", "Warning", "Critical", "Unknown" })
+    {
+      <article class="summary-@condition.ToLowerInvariant()"><span class="number" data-count="@condition">@Model.Sensors.Count(s => s.Condition == condition)</span><span class="label">@condition sensors</span></article>
+    }
+  </div>
+  <section aria-labelledby="sensors-heading">
+    <h2 id="sensors-heading">Monitored signals · 7 sensors</h2>
+    <div class="grid">
+      @foreach (var tile in Model.Sensors) { <partial name="_DeviceTile" model="tile" /> }
+    </div>
+  </section>
+  <section aria-labelledby="actuators-heading">
+    <h2 id="actuators-heading">Controlled devices · 5 actuators</h2>
+    <div class="grid">
+      @foreach (var tile in Model.Actuators) { <partial name="_DeviceTile" model="tile" /> }
+    </div>
+  </section>
+</main>
+<script src="~/js/hmi.js"></script>
+</body>
+</html>
