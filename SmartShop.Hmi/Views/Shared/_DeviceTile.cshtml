@@ -1,0 +1,13 @@
+@model DeviceTile
+<article class="tile" data-device="@Model.Id">
+  <h3>@Model.Name</h3><div class="id">@Model.Id</div>
+  <div class="value" data-field="value">@(Model.Value is null ? "No reading" : (Model.LastKnown ? "Last known: " : "") + Model.Value + (Model.Unit is null ? "" : " " + Model.Unit))</div>
+  <div class="badges"><span class="badge" data-field="condition">@Model.Condition</span><span class="badge" data-field="quality">@Model.Quality</span></div>
+  <footer data-field="time">@(Model.ObservedAtUtc?.ToString("u") ?? "No confirmed reading")</footer>
+  @if (Model.Id == "EntranceLockController")
+  {
+    <div class="control"><p>Command outcome: <span data-field="outcome">@(Model.CommandOutcome ?? "None")</span></p>
+      <button type="button" disabled>Lock</button><button type="button" disabled>Unlock</button>
+    </div>
+  }
+</article>
