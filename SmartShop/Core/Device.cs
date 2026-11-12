@@ -13,7 +13,7 @@ public enum DeviceStatus
     Warning,
     Critical
 }
-public struct TelemetryPayload;
+public struct TelemetryPayload { };
 
 namespace SmartShop.Core
 {
@@ -25,7 +25,7 @@ namespace SmartShop.Core
         public DeviceStatus Status { get; set; }
         public bool IsDataAvailable { get; set; }
 
-        public abstract void ReadData();
+        public virtual void ReadData() { }
         public abstract TelemetryPayload GetTelemetry();
 
     }

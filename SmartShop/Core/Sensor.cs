@@ -24,7 +24,7 @@ namespace SmartShop.Core
         //Compares the read value with configured and returns resulting status
         public DeviceStatus ClassifyStatus()
         {
-            if (!IsDataAvailable)
+            if (!IsDataAvailable || Value == null)
             {
                 Status = DeviceStatus.Warning;
                 return DeviceStatus.Warning;
