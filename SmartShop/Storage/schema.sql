@@ -20,17 +20,19 @@ CREATE TABLE IF NOT EXISTS AuditTrail (
     AdminUserId TEXT NOT NULL,
     Action TEXT NOT NULL,
     Timestamp TEXT NOT NULL,
-    DeviceId INTEGER,
+    DeviceId INTEGER NOT NULL,
     RequestedState TEXT,
     PreviousState TEXT,
     ConfirmedState TEXT,
     IsSuccess INTEGER CHECK (IsSuccess IN (0, 1)),
     ErrorMessage TEXT,
-    CHECK (
+        CHECK (
         Action <> 'AlarmCommand' OR (
-            DeviceId IS NOT NULL AND RequestedState IS NOT NULL
-            AND PreviousState IS NOT NULL AND IsSuccess IS NOT NULL
-            AND (IsSuccess = 0 OR ConfirmedState IS NOT NULL)
+            RequestedState IS NOT NULL
+            AND PreviousState IS NOT NULL
+            AND ConfirmedState IS NOT NULL
+            AND IsSuccess IS NOT NULL
+            AND (IsSuccess = 1 OR ConfirmedState = PreviousState)
         )
     )
 );
