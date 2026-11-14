@@ -17,7 +17,7 @@ public enum DeviceStatus
 /// </summary>
 public class TelemetryPayload
 {
-    public DateTime Timestamp { get; init; } = DateTime.Now;
+    public DateTime Timestamp { get; init; } = DateTime.UtcNow;
 	public int DeviceId { get; init; }
 	public double? Value { get; init; }
 	public string Unit { get; init; }
