@@ -13,8 +13,13 @@ CREATE TABLE IF NOT EXISTS EventLog (
     Unit TEXT NOT NULL,
     Status TEXT NOT NULL CHECK (Status IN ('Normal', 'Warning', 'Critical')),
     IsDataAvailable INTEGER NOT NULL CHECK (IsDataAvailable IN (0, 1)),
-    Message TEXT);
+    Message TEXT
+);
 
+-- All five actuators share this table. C# validates command states.
+-- Blocked attempts can leave both state fields NULL.
+-- Timeouts can leave ConfirmedState NULL.
+-- For signed-out attempts, C# supplies 'Unauthenticated' as AdminUserId.
 CREATE TABLE IF NOT EXISTS AuditTrail (
     AuditId INTEGER PRIMARY KEY,
     AdminUserId TEXT NOT NULL,
@@ -25,16 +30,7 @@ CREATE TABLE IF NOT EXISTS AuditTrail (
     PreviousState TEXT,
     ConfirmedState TEXT,
     IsSuccess INTEGER CHECK (IsSuccess IN (0, 1)),
-    ErrorMessage TEXT,
-        CHECK (
-        Action <> 'AlarmCommand' OR (
-            RequestedState IS NOT NULL
-            AND PreviousState IS NOT NULL
-            AND ConfirmedState IS NOT NULL
-            AND IsSuccess IS NOT NULL
-            AND (IsSuccess = 1 OR ConfirmedState = PreviousState)
-        )
-    )
+    ErrorMessage TEXT
 );
 
 -- AuditTrail retains the actor ID independently of account changes.
@@ -57,4 +53,3 @@ CREATE TABLE IF NOT EXISTS Orders (
     Status TEXT NOT NULL,
     TotalCents INTEGER NOT NULL CHECK (TotalCents >= 0)
 );
-
