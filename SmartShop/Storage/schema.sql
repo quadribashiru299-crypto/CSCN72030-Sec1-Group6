@@ -1,0 +1,55 @@
+-- SmartShop T05 design draft. Run on a fresh SQLite database.
+-- Assumptions to confirm: orders are simulated kiosk orders, and auth
+-- covers staff accounts. Align Users and Roles with the T13 auth design.
+-- Supply timestamps as UTC ISO 8601 text from the application.
+
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE IF NOT EXISTS EventLog (
+    EventId INTEGER PRIMARY KEY,
+    DeviceId INTEGER NOT NULL,
+    Timestamp TEXT NOT NULL,
+    Value REAL,
+    Unit TEXT NOT NULL,
+    Status TEXT NOT NULL CHECK (Status IN ('Normal', 'Warning', 'Critical')),
+    IsDataAvailable INTEGER NOT NULL CHECK (IsDataAvailable IN (0, 1)),
+    Message TEXT
+);
+
+-- All five actuators share this table. C# validates command states.
+-- Blocked attempts can leave both state fields NULL.
+-- Timeouts can leave ConfirmedState NULL.
+-- For signed-out attempts, C# supplies 'Unauthenticated' as AdminUserId.
+CREATE TABLE IF NOT EXISTS AuditTrail (
+    AuditId INTEGER PRIMARY KEY,
+    AdminUserId TEXT NOT NULL,
+    Action TEXT NOT NULL,
+    Timestamp TEXT NOT NULL,
+    DeviceId INTEGER NOT NULL,
+    RequestedState TEXT,
+    PreviousState TEXT,
+    ConfirmedState TEXT,
+    IsSuccess INTEGER CHECK (IsSuccess IN (0, 1)),
+    ErrorMessage TEXT
+);
+
+-- AuditTrail retains the actor ID independently of account changes.
+CREATE TABLE IF NOT EXISTS Roles (
+    RoleId INTEGER PRIMARY KEY,
+    Name TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS Users (
+    UserId TEXT PRIMARY KEY NOT NULL,
+    Email TEXT NOT NULL COLLATE NOCASE UNIQUE,
+    PasswordHash TEXT NOT NULL,
+    RoleId INTEGER NOT NULL REFERENCES Roles (RoleId)
+);
+
+-- One record per simulated kiosk order. No payment card fields.
+CREATE TABLE IF NOT EXISTS Orders (
+    OrderId INTEGER PRIMARY KEY,
+    Timestamp TEXT NOT NULL,
+    Status TEXT NOT NULL,
+    TotalCents INTEGER NOT NULL CHECK (TotalCents >= 0)
+);
