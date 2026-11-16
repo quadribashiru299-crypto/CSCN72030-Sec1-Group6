@@ -1,19 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-//using SmartShop.Models;
-
-
-//these are only here because there had been no merges so far
-//they are defined in the TelemetryPaload.cs file
-//this file will need to include "using SmartShop.Models"
-public enum DeviceStatus
-{
-    Normal,
-    Warning,
-    Critical
-}
-public struct TelemetryPayload { };
+using SmartShop.Models;
 
 namespace SmartShop.Core
 {

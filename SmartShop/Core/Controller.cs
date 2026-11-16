@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-//these are only here because there had been no merges so far
-//they are defined in the TelemetryPaload.cs file
-//this file will need to include "using SmartShop.Models"
-public struct CommandRequest { };
-public struct CommandResult { };
+using SmartShop.Models;
 
 namespace SmartShop.Core
 {
