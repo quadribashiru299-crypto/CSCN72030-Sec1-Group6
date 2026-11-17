@@ -7,10 +7,18 @@ using System.Text;
 
 namespace SmartShop.Devices
 {
-    public class TemperatureSensor : Sensor
+    public class StoreTemperatureSensor : Sensor
     {
         public override bool Validate()
         {
+            // adding all the conditions for unvalid results
+            // null
+            // max value that makes sense
+            // min value that makes sense
+            if(this.Value == null)
+            {
+                return false;
+            }
             return true;
         }
         public override TelemetryPayload GetTelemetry()
@@ -19,5 +27,8 @@ namespace SmartShop.Devices
             return result;
         }
 
+        public StoreTemperatureSensor(int id, string name, ThresholdConfig thresholds) {
+                
+        }
     }
 }
