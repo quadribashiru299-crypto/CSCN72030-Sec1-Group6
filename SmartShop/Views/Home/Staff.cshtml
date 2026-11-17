@@ -1,0 +1,22 @@
+@model System.Collections.Generic.IReadOnlyList<TelemetrySample>
+@{
+    ViewData["Title"] = "Staff Console";
+}
+
+<h1>Staff Console</h1>
+<p class="sub">Latest time step · @Model.Count device readings</p>
+
+<div class="grid">
+    @foreach (var s in Model)
+    {
+        var cls = s.IsDataAvailable ? s.Status.ToString().ToLowerInvariant() : "unavailable";
+        <div class="card @cls">
+            <h3>@s.Label</h3>
+            <div class="value">@(s.IsDataAvailable ? s.Value.ToString("0.##") : "--")<span class="unit">@s.Unit</span></div>
+            <div class="meta">
+                <span class="badge @cls">@(s.IsDataAvailable ? s.Status.ToString() : "Unavailable")</span>
+                <span>@s.Timestamp.ToString("HH:mm:ss")</span>
+            </div>
+        </div>
+    }
+</div>

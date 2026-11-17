@@ -1,0 +1,18 @@
+@{
+    ViewData["Title"] = "Overview";
+}
+
+<h1>SmartShop SCADA / HMI</h1>
+<p class="sub">Looped simulation telemetry read from Data/mockdata.txt (REQ-TEL-001).</p>
+
+<div class="panel">
+    <p class="note">
+        This host wires the <code>Core/</code> sensor hierarchy to an MVC dashboard.
+        Each page reads one time step from the shared <code>MockDataService</code>;
+        the cursor wraps around when the file ends.
+    </p>
+    <div class="links">
+        <a asp-controller="Home" asp-action="Staff">Staff Console</a>
+        <a asp-controller="Home" asp-action="Customer">Customer View</a>
+    </div>
+</div>
