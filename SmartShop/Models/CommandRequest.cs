@@ -10,7 +10,7 @@ namespace SmartShop.Models
         public int DeviceId { get; init; }
         public string RequestedState { get; init; }
         public string AdminUserId { get; init; }
-        public DateTime Timestamp { get; init; } = DateTime.Now;
+        public DateTime Timestamp { get; init; } = DateTime.UtcNow;
 
         public CommandRequest(int deviceId, string requestedState, string adminUserId)
         {
