@@ -16,7 +16,7 @@ namespace SmartShop.Core
     public abstract class Sensor : Device
     {
         public double? Value { get; set; }
-        public string Unit { get; set; }
+        public string Unit { get; set; } = string.Empty;
         public ThresholdConfig Thresholds { get; set; }
 
         //Checks if the received data makes sense and sets the IsDataAvailable attribute
