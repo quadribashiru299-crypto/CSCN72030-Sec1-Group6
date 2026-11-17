@@ -15,7 +15,9 @@ namespace SmartShop.Devices
             // null
             // max value that makes sense
             // min value that makes sense
-            if(this.Value == null)
+            if(this.Value == null
+                || this.Value >= 45.0
+                || this.Value <= -5.0)
             {
                 return false;
             }
@@ -27,8 +29,21 @@ namespace SmartShop.Devices
             return result;
         }
 
-        public StoreTemperatureSensor(int id, string name, ThresholdConfig thresholds) {
-                
+        public StoreTemperatureSensor(int id, string name) {
+            ThresholdConfig storeTempSensorConfig = new ThresholdConfig{ LowCritical = 16.0, 
+                                                                         LowWarning = 19.0,
+                                                                         HighWarning = 24.0,
+                                                                         HighCritical = 27.0 };
+            this.DeviceId = id;
+            this.DeviceName = name;
+            this.Unit = "°C";
+            this.Thresholds = storeTempSensorConfig;
         }
+
+        public override void ReadData()
+        {
+            //placeholder for readData method
+        }
+
     }
 }

@@ -21,7 +21,9 @@ namespace SmartShop.Core
 
         //Checks if the received data makes sense and sets the IsDataAvailable attribute
         public abstract bool Validate();
-         
+
+        public abstract void ReadData();
+
         //Compares the read value with configured and returns resulting status
         public DeviceStatus ClassifyStatus()
         {
