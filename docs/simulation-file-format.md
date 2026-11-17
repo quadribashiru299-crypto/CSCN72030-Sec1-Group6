@@ -16,7 +16,7 @@ parse it consistently.
 ## 2. File Location
 
 ```
-data/mockdata.txt
+Data/mockdata.txt
 ```
 
 The file is UTF-8 encoded, ASCII-compatible text. Lines are terminated by
@@ -37,7 +37,7 @@ timestamp|sensorId|value|unit|label
 | `sensorId` | string | Yes | Stable device ID (see table below) |
 | `value` | double | Yes | Numeric reading; 0 or 1 for bool sensors |
 | `unit` | string | Yes | `C`, `%`, `count`, or `bool` |
-| `label` | string | Yes | Human-readable display name |
+| `label` | string | No | Human-readable display name; falls back to `sensorId` if absent |
 
 ### Comment lines
 
@@ -68,14 +68,16 @@ step it wraps around to the beginning, producing an infinite looped stream
 
 | sensorId | Unit | Direction | Warning threshold | Critical threshold |
 |---|---|---|---|---|
-| `StoreTemperatureSensor` | C | above | > 23 | > 26 |
-| `RefrigeratorTemperature` | C | above | > 4 | > 5 |
+| `StoreTemperatureSensor` | C | above | ≥ 23 | ≥ 26 |
+| `RefrigeratorTemperature` | C | above | ≥ 4 | ≥ 5 |
 | `CheckoutSensor` | count | — | (per checkout flow) | — |
-| `ShelfStockSensor` | % | below | < 20 | < 10 |
-| `OccupancySensor` | count | above | > 15 | > 20 |
+| `ShelfStockSensor` | % | below | ≤ 20 | ≤ 10 |
+| `OccupancySensor` | count | above | ≥ 15 | ≥ 20 |
 | `ShockSensor` | bool | — | — | = 1 (any trigger) |
 | `SmokeDetector` | bool | — | — | = 1 (any trigger) |
 | `AlarmSensor` | bool | — | — | = 1 (Active) |
+
+Thresholds are **inclusive**: a value equal to the Warning or Critical bound triggers that band, matching `Sensor.ClassifyStatus()`.
 
 ## 6. Parsing Rules
 
