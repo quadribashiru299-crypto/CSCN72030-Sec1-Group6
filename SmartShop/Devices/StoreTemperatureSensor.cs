@@ -3,12 +3,14 @@ using SmartShop.Models;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace SmartShop.Devices
 {
     public class StoreTemperatureSensor : Sensor
     {
+        public string FilePath { get; set; }
         public override bool Validate()
         {
             // adding all the conditions for unvalid results
@@ -29,7 +31,7 @@ namespace SmartShop.Devices
             return result;
         }
 
-        public StoreTemperatureSensor(int id, string name) {
+        public StoreTemperatureSensor(int id, string name, string filePath) {
             ThresholdConfig storeTempSensorConfig = new ThresholdConfig{ LowCritical = 16.0, 
                                                                          LowWarning = 19.0,
                                                                          HighWarning = 24.0,
@@ -38,6 +40,8 @@ namespace SmartShop.Devices
             this.DeviceName = name;
             this.Unit = "°C";
             this.Thresholds = storeTempSensorConfig;
+            //should we set last updated to the time the instance was created?
+            this.FilePath = filePath;
         }
 
         public override void ReadData()
