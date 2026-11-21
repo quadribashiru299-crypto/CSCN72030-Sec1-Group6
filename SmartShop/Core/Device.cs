@@ -8,7 +8,7 @@ namespace SmartShop.Core
     public abstract class Device
     {
         public int DeviceId { get; init; }
-        public string DeviceName { get; init; }
+        public string DeviceName { get; init; } = string.Empty;
         public DateTime LastUpdated { get; set; }
         public DeviceStatus Status { get; set; }
         public bool IsDataAvailable { get; set; }
