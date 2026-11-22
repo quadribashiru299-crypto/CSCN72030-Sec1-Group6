@@ -36,13 +36,17 @@ public class ShockAndSmokeSensorTests
         using var data = new TempDataFile("2026-11-20T12:00:00Z|SmokeDetector|50|ppm");
         var sensor = new SmokeDetector(data.Path);
 
+        DateTime beforeRead = DateTime.UtcNow;
         sensor.ReadData();
+        DateTime afterRead = DateTime.UtcNow;
         TelemetryPayload first = sensor.GetTelemetry();
         Assert.Equal(7, first.DeviceId);
         Assert.Equal("ppm", first.Unit);
         Assert.Equal(50d, first.Value);
         Assert.Equal(DeviceStatus.Critical, first.Status);
         Assert.True(first.IsDataAvailable);
+        Assert.Equal(DateTimeKind.Utc, first.Timestamp.Kind);
+        Assert.InRange(first.Timestamp, beforeRead, afterRead);
 
         var thresholds = sensor.Thresholds;
         thresholds.HighCritical = 60;

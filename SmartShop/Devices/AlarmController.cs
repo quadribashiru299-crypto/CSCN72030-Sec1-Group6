@@ -35,7 +35,7 @@ public sealed class AlarmController : Controller
             return;
         }
 
-        if (!_source.TryRead(DeviceKey, TelemetryUnit, out DateTime timestamp, out double value, out string? error)
+        if (!_source.TryRead(DeviceKey, TelemetryUnit, out double value, out string? error)
             || (value != 0 && value != 1))
         {
             IsDataAvailable = false;
@@ -44,7 +44,7 @@ public sealed class AlarmController : Controller
             return;
         }
 
-        ConfirmState(value == 1 ? StateActive : StateInactive, timestamp);
+        ConfirmState(value == 1 ? StateActive : StateInactive);
     }
 
     public override CommandResult SetConfig(CommandRequest cmd)
@@ -83,7 +83,7 @@ public sealed class AlarmController : Controller
             return new CommandResult(false, confirmedState, "The simulated alarm rejected the command.");
         }
 
-        ConfirmState(state, DateTime.UtcNow);
+        ConfirmState(state);
         IsManualOverride = true;
         return new CommandResult(true, state);
     }
@@ -105,10 +105,10 @@ public sealed class AlarmController : Controller
         };
     }
 
-    private void ConfirmState(string state, DateTime timestamp)
+    private void ConfirmState(string state)
     {
         CurrentConfig = new DeviceConfig { State = state };
-        LastUpdated = timestamp;
+        LastUpdated = DateTime.UtcNow;
         IsDataAvailable = true;
         Status = DeviceStatus.Normal;
         LastReadError = null;

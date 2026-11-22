@@ -9,16 +9,20 @@ public class AlarmControllerTests
     private const string ActiveRecord = "2026-11-20T12:00:01Z|AlarmController|1|bool";
 
     [Fact]
-    public void ReadData_UsesTheSimulationTimestampAndLoopsAfterTheLastRecord()
+    public void ReadData_UsesCurrentUtcTimeAndLoopsAfterTheLastRecord()
     {
         using var data = new TempDataFile(InactiveRecord, ActiveRecord);
         var alarm = new AlarmController(data.Path);
 
         Assert.Null(alarm.GetTelemetry().Value);
 
+        DateTime beforeRead = DateTime.UtcNow;
         alarm.ReadData();
+        DateTime afterRead = DateTime.UtcNow;
         Assert.Equal("Inactive", alarm.GetConfig().State);
-        Assert.Equal(new DateTime(2026, 11, 20, 12, 0, 0, DateTimeKind.Utc), alarm.GetTelemetry().Timestamp);
+        DateTime timestamp = alarm.GetTelemetry().Timestamp;
+        Assert.Equal(DateTimeKind.Utc, timestamp.Kind);
+        Assert.InRange(timestamp, beforeRead, afterRead);
 
         alarm.ReadData();
         Assert.Equal("Active", alarm.GetConfig().State);

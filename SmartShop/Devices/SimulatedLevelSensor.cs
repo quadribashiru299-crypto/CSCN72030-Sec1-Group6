@@ -25,13 +25,14 @@ public abstract class SimulatedLevelSensor : Sensor
 
     public override void ReadData()
     {
-        bool read = _source.TryRead(_sensorKey, Unit, out DateTime timestamp, out double value, out string? error);
+        bool read = _source.TryRead(_sensorKey, Unit, out double value, out string? error);
         _candidateValue = read ? value : null;
 
         if (Validate())
         {
             Value = _candidateValue;
-            LastUpdated = timestamp;
+            // A replayed record is fresh when the simulator successfully reads it.
+            LastUpdated = DateTime.UtcNow;
             LastReadError = null;
         }
         else

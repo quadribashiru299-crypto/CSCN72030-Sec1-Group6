@@ -11,11 +11,9 @@ internal sealed class LoopedDeviceFile(string path)
     public bool TryRead(
         string deviceKey,
         string unit,
-        out DateTime timestamp,
         out double value,
         [NotNullWhen(false)] out string? error)
     {
-        timestamp = default;
         value = default;
         string[] records;
 
@@ -50,7 +48,7 @@ internal sealed class LoopedDeviceFile(string path)
             || !string.Equals(fields[1].Trim(), deviceKey, StringComparison.OrdinalIgnoreCase)
             || !string.Equals(fields[3].Trim(), unit, StringComparison.OrdinalIgnoreCase)
             || !DateTime.TryParse(fields[0], CultureInfo.InvariantCulture,
-                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out timestamp)
+                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out _)
             || !double.TryParse(fields[2], NumberStyles.Float, CultureInfo.InvariantCulture, out value)
             || !double.IsFinite(value))
         {
