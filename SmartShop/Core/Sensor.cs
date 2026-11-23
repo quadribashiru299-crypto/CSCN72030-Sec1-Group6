@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using SmartShop.Models;
+using SmartShop.Services;
 
 namespace SmartShop.Core
 {
@@ -50,7 +51,7 @@ namespace SmartShop.Core
         //Checks if the received data makes sense and sets the IsDataAvailable attribute
         public abstract bool Validate();
 
-        //Compares the read value with configured and returns resulting status
+        //Compares the read value with the configured thresholds and returns the resulting status
         public DeviceStatus ClassifyStatus()
         {
             if (!IsDataAvailable || Value == null)
@@ -58,18 +59,12 @@ namespace SmartShop.Core
                 Status = DeviceStatus.Warning;
                 return DeviceStatus.Warning;
             }
-            if((Thresholds.LowCritical != null && Value <= Thresholds.LowCritical) || (Thresholds.HighCritical != null && Value >= Thresholds.HighCritical))
-            {
-                Status = DeviceStatus.Critical;
-                return DeviceStatus.Critical;
-            }
-            if((Thresholds.LowWarning != null && Value <= Thresholds.LowWarning) || (Thresholds.HighWarning != null && Value >= Thresholds.HighWarning))
-            {
-                Status = DeviceStatus.Warning;
-                return DeviceStatus.Warning;
-            }
-            Status = DeviceStatus.Normal;
-            return DeviceStatus.Normal;
+
+            // The classification rule lives in ThresholdEngine; this sensor only
+            // supplies its own threshold set and the value just read.
+            ThresholdEngine engine = new ThresholdEngine();
+            Status = engine.Classify(Thresholds, Value.Value);
+            return Status;
         }
 
         /// <summary>

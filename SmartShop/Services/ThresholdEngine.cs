@@ -12,25 +12,11 @@ namespace SmartShop.Services;
 /// </summary>
 public sealed class ThresholdEngine
 {
-    private readonly IReadOnlyDictionary<string, ThresholdConfig> _thresholds;
-
-    public ThresholdEngine(IReadOnlyDictionary<string, ThresholdConfig> thresholds)
-    {
-        _thresholds = thresholds;
-    }
-
     /// <summary>
-    /// Classifies a reading for the named sensor. Sensors without a configured
-    /// threshold set fall back to <see cref="DeviceStatus.Normal"/>.
+    /// Classifies one reading against the threshold set supplied by the caller.
+    /// The engine holds no state: every sensor passes its own configuration in.
     /// </summary>
-    public DeviceStatus Classify(string sensorId, double value)
-    {
-        var config = _thresholds.TryGetValue(sensorId, out var found) ? found : default;
-        return Classify(config, value);
-    }
-
-    /// <summary>Pure classification against a single threshold set.</summary>
-    public static DeviceStatus Classify(ThresholdConfig config, double value)
+    public DeviceStatus Classify(ThresholdConfig config, double value)
     {
         if ((config.LowCritical is double lowCritical && value <= lowCritical) ||
             (config.HighCritical is double highCritical && value >= highCritical))

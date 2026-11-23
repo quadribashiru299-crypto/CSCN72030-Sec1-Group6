@@ -29,7 +29,8 @@ public class ThresholdEngineTests
         var config = Fridge;
 
         // Act
-        var status = ThresholdEngine.Classify(config, value);
+        var engine = new ThresholdEngine();
+        var status = engine.Classify(config, value);
 
         // Assert
         Assert.Equal(expected, status);
@@ -46,40 +47,22 @@ public class ThresholdEngineTests
         };
 
         // Act
-        var status = ThresholdEngine.Classify(overlap, 3.4);
+        var status = new ThresholdEngine().Classify(overlap, 3.4);
 
         // Assert
         Assert.Equal(DeviceStatus.Critical, status);
     }
 
     [Fact]
-    public void Classify_UnknownSensorId_FallsBackToNormal()
+    public void Classify_UnconfiguredBands_ReturnNormal()
     {
-        // Arrange
-        var engine = new ThresholdEngine(new Dictionary<string, ThresholdConfig>());
+        // Arrange: all four bounds left unset.
+        var empty = new ThresholdConfig();
 
         // Act
-        var status = engine.Classify("NoSuchSensor", 999.0);
+        var status = new ThresholdEngine().Classify(empty, 999.0);
 
         // Assert
         Assert.Equal(DeviceStatus.Normal, status);
-    }
-
-    [Fact]
-    public void Classify_KnownSensorId_UsesItsThresholdSet()
-    {
-        // Arrange
-        var engine = new ThresholdEngine(new Dictionary<string, ThresholdConfig>
-        {
-            ["RefrigeratorTemperature"] = Fridge,
-        });
-
-        // Act
-        var critical = engine.Classify("RefrigeratorTemperature", 5.0);
-        var normal = engine.Classify("RefrigeratorTemperature", 3.5);
-
-        // Assert
-        Assert.Equal(DeviceStatus.Critical, critical);
-        Assert.Equal(DeviceStatus.Normal, normal);
     }
 }
