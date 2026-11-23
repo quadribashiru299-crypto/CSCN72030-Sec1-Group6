@@ -9,7 +9,7 @@ namespace SmartShop.Tests.Devices
         public void Constructor_UsesSharedControllerContract()
         {
             using var data = new TempDataFile(
-                "2026-11-17T12:00:00Z|EntranceLockController|0|bool|Entrance Lock");
+                "EntranceLockController|0|bool|Entrance Lock");
 
             var controller = new EntranceLockController(data.Path);
 
@@ -24,8 +24,8 @@ namespace SmartShop.Tests.Devices
         public void ReadData_LoopsBaselineFeedback()
         {
             using var data = new TempDataFile(
-                "2026-11-17T12:00:00Z|EntranceLockController|0|bool|Entrance Lock",
-                "2026-11-17T12:00:01Z|EntranceLockController|1|bool|Entrance Lock");
+                "EntranceLockController|0|bool|Entrance Lock",
+                "EntranceLockController|1|bool|Entrance Lock");
 
             var controller = new EntranceLockController(data.Path);
 
@@ -44,7 +44,7 @@ namespace SmartShop.Tests.Devices
         public void SetConfig_UsesCommandRequestAndCreatesManualOverride()
         {
             using var data = new TempDataFile(
-                "2026-11-17T12:00:00Z|EntranceLockController|0|bool|Entrance Lock");
+                "EntranceLockController|0|bool|Entrance Lock");
 
             var controller = new EntranceLockController(data.Path);
             controller.ReadData();
@@ -66,7 +66,7 @@ namespace SmartShop.Tests.Devices
         public void SetConfig_InvalidState_DoesNotChangeConfirmedState()
         {
             using var data = new TempDataFile(
-                "2026-11-17T12:00:00Z|EntranceLockController|0|bool|Entrance Lock");
+                "EntranceLockController|0|bool|Entrance Lock");
 
             var controller = new EntranceLockController(data.Path);
             controller.ReadData();
@@ -84,7 +84,7 @@ namespace SmartShop.Tests.Devices
         public void SetConfig_RejectsWrongDeviceAndMissingAdmin()
         {
             using var data = new TempDataFile(
-                "2026-11-17T12:00:00Z|EntranceLockController|0|bool|Entrance Lock");
+                "EntranceLockController|0|bool|Entrance Lock");
 
             var controller = new EntranceLockController(data.Path);
             controller.ReadData();
@@ -106,8 +106,8 @@ namespace SmartShop.Tests.Devices
         public void ResumeSimulation_AllowsFileFeedbackAfterManualOverride()
         {
             using var data = new TempDataFile(
-                "2026-11-17T12:00:00Z|EntranceLockController|0|bool|Entrance Lock",
-                "2026-11-17T12:00:01Z|EntranceLockController|0|bool|Entrance Lock");
+                "EntranceLockController|0|bool|Entrance Lock",
+                "EntranceLockController|0|bool|Entrance Lock");
 
             var controller = new EntranceLockController(data.Path);
             controller.ReadData();
@@ -128,7 +128,7 @@ namespace SmartShop.Tests.Devices
         public void GetTelemetry_ReturnsSharedPayload()
         {
             using var data = new TempDataFile(
-                "2026-11-17T12:00:00Z|EntranceLockController|1|bool|Entrance Lock");
+                "EntranceLockController|1|bool|Entrance Lock");
 
             var controller = new EntranceLockController(data.Path);
             controller.ReadData();

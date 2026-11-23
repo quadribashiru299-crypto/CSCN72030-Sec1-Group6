@@ -1,5 +1,5 @@
-# Format: timestamp|device|value|unit|label
-2026-11-20T12:00:00Z|SmokeDetector|0|ppm|Smoke Detection
-2026-11-20T12:00:01Z|SmokeDetector|25|ppm|Smoke Detection
-2026-11-20T12:00:02Z|SmokeDetector|50|ppm|Smoke Detection
-2026-11-20T12:00:03Z|SmokeDetector|10|ppm|Smoke Detection
+# Format: device|value|unit
+SmokeDetector|0|ppm
+SmokeDetector|25|ppm
+SmokeDetector|50|ppm
+SmokeDetector|10|ppm

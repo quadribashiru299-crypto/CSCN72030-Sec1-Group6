@@ -9,7 +9,7 @@ namespace SmartShop.Tests.Devices
         public void Constructor_UsesSharedDeviceContract()
         {
             using var data = new TempDataFile(
-                "2026-11-17T12:00:00Z|OccupancySensor|10|count|Store Occupancy");
+                "OccupancySensor|10|count|Store Occupancy");
 
             var sensor = new OccupancySensor(data.Path);
 
@@ -25,9 +25,9 @@ namespace SmartShop.Tests.Devices
         public void ReadData_LoopsAndClassifiesHighThresholds()
         {
             using var data = new TempDataFile(
-                "2026-11-17T12:00:00Z|OccupancySensor|14|count|Store Occupancy",
-                "2026-11-17T12:00:01Z|OccupancySensor|15|count|Store Occupancy",
-                "2026-11-17T12:00:02Z|OccupancySensor|20|count|Store Occupancy");
+                "OccupancySensor|14|count|Store Occupancy",
+                "OccupancySensor|15|count|Store Occupancy",
+                "OccupancySensor|20|count|Store Occupancy");
 
             var sensor = new OccupancySensor(data.Path);
 
@@ -52,8 +52,8 @@ namespace SmartShop.Tests.Devices
         public void InvalidReading_KeepsLastKnownValueAndMarksUnavailable()
         {
             using var data = new TempDataFile(
-                "2026-11-17T12:00:00Z|OccupancySensor|9|count|Store Occupancy",
-                "2026-11-17T12:00:01Z|OccupancySensor|9.5|count|Store Occupancy");
+                "OccupancySensor|9|count|Store Occupancy",
+                "OccupancySensor|9.5|count|Store Occupancy");
 
             var sensor = new OccupancySensor(data.Path);
 
@@ -85,7 +85,7 @@ namespace SmartShop.Tests.Devices
         public void GetTelemetry_ReturnsSharedPayload()
         {
             using var data = new TempDataFile(
-                "2026-11-17T12:00:00Z|OccupancySensor|17|count|Store Occupancy");
+                "OccupancySensor|17|count|Store Occupancy");
 
             var sensor = new OccupancySensor(data.Path);
             sensor.ReadData();

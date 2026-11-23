@@ -9,10 +9,10 @@ public class ShockAndSmokeSensorTests
     public void ShockSensor_UsesThresholdsAndLoopsBackToTheFirstSample()
     {
         using var data = new TempDataFile(
-            "# timestamp|device|value|unit",
-            "2026-11-20T12:00:00Z|ShockSensor|0.5|g",
-            "2026-11-20T12:00:01Z|ShockSensor|1|g",
-            "2026-11-20T12:00:02Z|ShockSensor|2|g");
+            "# device|value|unit",
+            "ShockSensor|0.5|g",
+            "ShockSensor|1|g",
+            "ShockSensor|2|g");
         var sensor = new ShockSensor(data.Path);
 
         sensor.ReadData();
@@ -33,7 +33,7 @@ public class ShockAndSmokeSensorTests
     [Fact]
     public void SmokeDetector_PublishesTelemetryUsingConfiguredThresholds()
     {
-        using var data = new TempDataFile("2026-11-20T12:00:00Z|SmokeDetector|50|ppm");
+        using var data = new TempDataFile("SmokeDetector|50|ppm");
         var sensor = new SmokeDetector(data.Path);
 
         DateTime beforeRead = DateTime.UtcNow;
@@ -56,18 +56,18 @@ public class ShockAndSmokeSensorTests
     }
 
     [Theory]
-    [InlineData("2026-11-20T12:00:01Z|SmokeDetector|NaN|ppm")]
-    [InlineData("2026-11-20T12:00:01Z|SmokeDetector|Infinity|ppm")]
-    [InlineData("2026-11-20T12:00:01Z|SmokeDetector|-1|ppm")]
-    [InlineData("2026-11-20T12:00:01Z|ShockSensor|15|ppm")]
-    [InlineData("2026-11-20T12:00:01Z|SmokeDetector|15|g")]
-    [InlineData("invalid timestamp|SmokeDetector|15|ppm")]
+    [InlineData("SmokeDetector|NaN|ppm")]
+    [InlineData("SmokeDetector|Infinity|ppm")]
+    [InlineData("SmokeDetector|-1|ppm")]
+    [InlineData("ShockSensor|15|ppm")]
+    [InlineData("SmokeDetector|15|g")]
+    [InlineData("SmokeDetector|15")]
     public void SmokeDetector_RetainsTheLastValidSampleAndRecovers(string invalidRecord)
     {
         using var data = new TempDataFile(
-            "2026-11-20T12:00:00Z|SmokeDetector|10|ppm",
+            "SmokeDetector|10|ppm",
             invalidRecord,
-            "2026-11-20T12:00:02Z|SmokeDetector|30|ppm");
+            "SmokeDetector|30|ppm");
         var sensor = new SmokeDetector(data.Path);
         sensor.ReadData();
         TelemetryPayload first = sensor.GetTelemetry();
