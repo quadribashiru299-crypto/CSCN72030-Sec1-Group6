@@ -99,14 +99,14 @@ namespace SmartShop.Devices
             CurrentConfig = newConfig;
         }
 
-        private void SetFanSpeed(int brightness)
+        private void SetFanSpeed(int fanSpeed)
         {
-            if (brightness < 0) { brightness = 0; }
-            if (brightness > 100) { brightness = 100; }
+            if (fanSpeed < 0) { fanSpeed = 0; }
+            if (fanSpeed > 100) { fanSpeed = 100; }
             DeviceConfig newConfig = new DeviceConfig
             {
                 State = this.CurrentConfig.State,
-                Value = brightness
+                Value = fanSpeed
             };
             CurrentConfig = newConfig;
         }
