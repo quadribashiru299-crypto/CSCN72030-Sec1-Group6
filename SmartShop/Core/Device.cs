@@ -17,15 +17,9 @@ namespace SmartShop.Core
 
         /// <summary>
         /// Packages the device into the shared telemetry contract (REQ-INT-TEL-001).
-        /// Base devices carry no measured value; sensors override this to publish
-        /// their reading and unit.
+        /// Every concrete device declares its own payload, so the compiler forces
+        /// each subclass to state exactly what it publishes.
         /// </summary>
-        public virtual TelemetryPayload GetTelemetry()
-        {
-            return new TelemetryPayload(DeviceId, null, string.Empty, Status, IsDataAvailable)
-            {
-                Timestamp = LastUpdated == default ? DateTime.UtcNow : LastUpdated
-            };
-        }
+        public abstract TelemetryPayload GetTelemetry();
     }
 }
