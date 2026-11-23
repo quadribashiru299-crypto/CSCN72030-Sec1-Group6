@@ -33,13 +33,29 @@ namespace SmartShop.Devices
 
             if (fanSpeedPercent < 0) { fanSpeedPercent = 0; }
             if (fanSpeedPercent > 100) { fanSpeedPercent = 100; }
-            if (HvacMode.Trim().Equals("Off", StringComparison.OrdinalIgnoreCase)
-                && HvacMode.Trim().Equals("Auto", StringComparison.OrdinalIgnoreCase)
-                && HvacMode.Trim().Equals("Cool", StringComparison.OrdinalIgnoreCase)
-                && HvacMode.Trim().Equals("Boost", StringComparison.OrdinalIgnoreCase)
-                && HvacMode.Trim().Equals("Heat", StringComparison.OrdinalIgnoreCase))
+            if (!HvacMode.Trim().Equals("Off", StringComparison.OrdinalIgnoreCase)
+                && !HvacMode.Trim().Equals("Auto", StringComparison.OrdinalIgnoreCase)
+                && !HvacMode.Trim().Equals("Cool", StringComparison.OrdinalIgnoreCase)
+                && !HvacMode.Trim().Equals("Boost", StringComparison.OrdinalIgnoreCase)
+                && !HvacMode.Trim().Equals("Heat", StringComparison.OrdinalIgnoreCase))
             {
                 HvacMode = "Off";
+            }
+            if(HvacMode.Trim().Equals("Off", StringComparison.OrdinalIgnoreCase))
+            {
+                HvacMode = "Off";
+            } else if (HvacMode.Trim().Equals("Auto", StringComparison.OrdinalIgnoreCase))
+            {
+                HvacMode = "Auto";
+            } else if (HvacMode.Trim().Equals("Cool", StringComparison.OrdinalIgnoreCase))
+            {
+                HvacMode = "Cool";
+            } else if (HvacMode.Trim().Equals("Boost", StringComparison.OrdinalIgnoreCase))
+            {
+                HvacMode = "Boost";
+            } else if (HvacMode.Trim().Equals("Heat", StringComparison.OrdinalIgnoreCase))
+            {
+                HvacMode = "Heat";
             }
 
             this.CurrentConfig = new DeviceConfig
