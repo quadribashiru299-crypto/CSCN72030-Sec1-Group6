@@ -20,7 +20,7 @@ namespace SmartShop.Core
         private int _nextSimulationIndex;
 
         public double? Value { get; set; }
-        public string Unit { get; set; }
+        public string Unit { get; set; } = string.Empty;
         public ThresholdConfig Thresholds { get; set; }
 
         /// <summary>
