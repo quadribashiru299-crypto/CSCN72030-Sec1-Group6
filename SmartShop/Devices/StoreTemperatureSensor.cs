@@ -26,6 +26,7 @@ namespace SmartShop.Devices
             this.Thresholds = storeTempSensorConfig;
             this.LastUpdated = DateTime.UtcNow;
             this.filePath = filePath;
+            this.IsDataAvailable = false;
         }
 
         public override bool Validate()
