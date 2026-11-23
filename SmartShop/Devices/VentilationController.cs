@@ -33,11 +33,11 @@ namespace SmartShop.Devices
 
             if (fanSpeedPercent < 0) { fanSpeedPercent = 0; }
             if (fanSpeedPercent > 100) { fanSpeedPercent = 100; }
-            if (HvacMode != "Off"
-                && HvacMode != "Auto"
-                && HvacMode != "Cool"
-                && HvacMode != "Boost"
-                && HvacMode != "Heat")
+            if (HvacMode.Trim().Equals("Off", StringComparison.OrdinalIgnoreCase)
+                && HvacMode.Trim().Equals("Auto", StringComparison.OrdinalIgnoreCase)
+                && HvacMode.Trim().Equals("Cool", StringComparison.OrdinalIgnoreCase)
+                && HvacMode.Trim().Equals("Boost", StringComparison.OrdinalIgnoreCase)
+                && HvacMode.Trim().Equals("Heat", StringComparison.OrdinalIgnoreCase))
             {
                 HvacMode = "Off";
             }
@@ -145,7 +145,7 @@ namespace SmartShop.Devices
                 return errResult;
             }
 
-            if (cmd.RequestedState.Equals("Off", StringComparison.OrdinalIgnoreCase))
+            if (cmd.RequestedState.Trim().Equals("Off", StringComparison.OrdinalIgnoreCase))
             {
                 this.TurnOff();
                 LastUpdated = DateTime.UtcNow;
@@ -153,7 +153,7 @@ namespace SmartShop.Devices
                 return offResult;
             }
 
-            if (cmd.RequestedState.Equals("Auto", StringComparison.OrdinalIgnoreCase))
+            if (cmd.RequestedState.Trim().Equals("Auto", StringComparison.OrdinalIgnoreCase))
             {
                 this.TurnOnAuto();
                 LastUpdated = DateTime.UtcNow;
@@ -161,7 +161,7 @@ namespace SmartShop.Devices
                 return autoResult;
             }
 
-            if (cmd.RequestedState.Equals("Cool", StringComparison.OrdinalIgnoreCase))
+            if (cmd.RequestedState.Trim().Equals("Cool", StringComparison.OrdinalIgnoreCase))
             {
                 this.TurnOnCool();
                 LastUpdated = DateTime.UtcNow;
@@ -169,7 +169,7 @@ namespace SmartShop.Devices
                 return coolResult;
             }
 
-            if (cmd.RequestedState.Equals("Boost", StringComparison.OrdinalIgnoreCase))
+            if (cmd.RequestedState.Trim().Equals("Boost", StringComparison.OrdinalIgnoreCase))
             {
                 this.TurnOnBoost();
                 LastUpdated = DateTime.UtcNow;
@@ -177,7 +177,7 @@ namespace SmartShop.Devices
                 return boostResult;
             }
 
-            if (cmd.RequestedState.Equals("Heat", StringComparison.OrdinalIgnoreCase))
+            if (cmd.RequestedState.Trim().Equals("Heat", StringComparison.OrdinalIgnoreCase))
             {
                 this.TurnOnHeat();
                 LastUpdated = DateTime.UtcNow;

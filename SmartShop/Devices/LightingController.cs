@@ -108,7 +108,7 @@ namespace SmartShop.Devices
 
 
 
-            if (cmd.RequestedState.Equals("Off", StringComparison.OrdinalIgnoreCase))
+            if (cmd.RequestedState.Trim().Equals("Off", StringComparison.OrdinalIgnoreCase))
             {
                 this.TurnOff();
                 LastUpdated = DateTime.UtcNow;
@@ -116,7 +116,7 @@ namespace SmartShop.Devices
                 return offResult;
             }
 
-            if (cmd.RequestedState.Equals("On", StringComparison.OrdinalIgnoreCase))
+            if (cmd.RequestedState.Trim().Equals("On", StringComparison.OrdinalIgnoreCase))
             {
                 this.TurnOn();
                 LastUpdated = DateTime.UtcNow;
