@@ -39,7 +39,6 @@ namespace SmartShop.Devices
                 State = isOn ? "On" : "Off", //if isOn is true, State = "On", else State = "Off"
                 Value = brightnessPercent
             };
-
         }
 
         private void TurnOn()
