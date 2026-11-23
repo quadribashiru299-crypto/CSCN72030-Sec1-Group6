@@ -135,8 +135,6 @@ namespace SmartShop.Tests.Devices
             Assert.Equal(0, controller.FanSpeedPercent);
         }
 
-        // 3. SetConfig() – Validace chyb a oprávnění
-
         [Fact]
         public void SetConfig_NullCommandOrNullState_IsRejectedAndStateUnchanged()
         {
@@ -220,8 +218,6 @@ namespace SmartShop.Tests.Devices
             Assert.Equal("Heat", controller.HvacMode);
             Assert.Equal(45, controller.FanSpeedPercent);
         }
-
-        // 4. GetTelemetry()
 
         [Fact]
         public void GetTelemetry_WhenActive_ReturnsCurrentFanSpeedAndPercentUnit()
