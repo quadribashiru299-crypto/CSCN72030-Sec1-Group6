@@ -179,37 +179,30 @@ namespace SmartShop.Core
         }
 
         /// <summary>
-        /// Splits "timestamp|key|value|unit|label" and returns the numeric value
-        /// only when the timestamp parses, the key matches this sensor and the
-        /// value is numeric.
+        /// Splits "key|value|unit|label" and returns the numeric value only when
+        /// the key matches this sensor and the value is numeric.
         /// </summary>
         private double? ParseValue(string record)
         {
             string[] fields = record.Split('|');
 
-            if (fields.Length < 4)
+            if (fields.Length < 3)
             {
                 return null;
             }
 
-            bool hasTimestamp = DateTime.TryParse(
-                fields[0].Trim(),
-                CultureInfo.InvariantCulture,
-                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
-                out _);
-
             bool isThisSensor = string.Equals(
-                fields[1].Trim(),
+                fields[0].Trim(),
                 SimulationKey,
                 StringComparison.OrdinalIgnoreCase);
 
-            if (!hasTimestamp || !isThisSensor)
+            if (!isThisSensor)
             {
                 return null;
             }
 
             return double.TryParse(
-                fields[2].Trim(),
+                fields[1].Trim(),
                 NumberStyles.Float,
                 CultureInfo.InvariantCulture,
                 out double value)

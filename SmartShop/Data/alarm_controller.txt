@@ -1,5 +1,5 @@
-# Format: timestamp|device|value|unit|label
+# Format: device|value|unit|label
 # 0 = Inactive, 1 = Active
-2026-11-20T12:00:00Z|AlarmController|0|bool|Alarm
-2026-11-20T12:00:01Z|AlarmController|1|bool|Alarm
-2026-11-20T12:00:02Z|AlarmController|0|bool|Alarm
+AlarmController|0|bool|Alarm
+AlarmController|1|bool|Alarm
+AlarmController|0|bool|Alarm

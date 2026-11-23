@@ -1,18 +1,18 @@
 # SmartShop RefrigeratorTemperature looped simulation data
-# Format: timestamp|device|value|unit|label
+# Format: device|value|unit|label
 # Thresholds (see RefrigeratorTemperature): low critical 2, low warning 3, high warning 4, high critical 5
 # Sequence covers every band, then loops back to the first record:
 #   3.6 normal, 4.0 warning, 5.2 critical, 3.5 normal, 3.0 warning, 1.8 critical, ...
 
-2026-11-21T08:00:00Z|RefrigeratorTemperature|3.6|C|Refrigerator Temperature
-2026-11-21T08:00:10Z|RefrigeratorTemperature|3.8|C|Refrigerator Temperature
-2026-11-21T08:00:20Z|RefrigeratorTemperature|4.0|C|Refrigerator Temperature
-2026-11-21T08:00:30Z|RefrigeratorTemperature|4.5|C|Refrigerator Temperature
-2026-11-21T08:00:40Z|RefrigeratorTemperature|5.2|C|Refrigerator Temperature
-2026-11-21T08:00:50Z|RefrigeratorTemperature|5.8|C|Refrigerator Temperature
-2026-11-21T08:01:00Z|RefrigeratorTemperature|3.5|C|Refrigerator Temperature
-2026-11-21T08:01:10Z|RefrigeratorTemperature|3.0|C|Refrigerator Temperature
-2026-11-21T08:01:20Z|RefrigeratorTemperature|2.6|C|Refrigerator Temperature
-2026-11-21T08:01:30Z|RefrigeratorTemperature|1.8|C|Refrigerator Temperature
-2026-11-21T08:01:40Z|RefrigeratorTemperature|2.4|C|Refrigerator Temperature
-2026-11-21T08:01:50Z|RefrigeratorTemperature|3.7|C|Refrigerator Temperature
+RefrigeratorTemperature|3.6|C|Refrigerator Temperature
+RefrigeratorTemperature|3.8|C|Refrigerator Temperature
+RefrigeratorTemperature|4.0|C|Refrigerator Temperature
+RefrigeratorTemperature|4.5|C|Refrigerator Temperature
+RefrigeratorTemperature|5.2|C|Refrigerator Temperature
+RefrigeratorTemperature|5.8|C|Refrigerator Temperature
+RefrigeratorTemperature|3.5|C|Refrigerator Temperature
+RefrigeratorTemperature|3.0|C|Refrigerator Temperature
+RefrigeratorTemperature|2.6|C|Refrigerator Temperature
+RefrigeratorTemperature|1.8|C|Refrigerator Temperature
+RefrigeratorTemperature|2.4|C|Refrigerator Temperature
+RefrigeratorTemperature|3.7|C|Refrigerator Temperature

@@ -45,9 +45,9 @@ namespace SmartShop.Tests.Core
             // Arrange
             using var data = new TempDataFile(
                 "# Stub sensor looped simulation data",
-                "2026-11-17T12:00:00Z|StubSensor|4|C|Stub",
-                "2026-11-17T12:00:01Z|StubSensor|9|C|Stub",
-                "2026-11-17T12:00:02Z|StubSensor|1|C|Stub");
+                "StubSensor|4|C|Stub",
+                "StubSensor|9|C|Stub",
+                "StubSensor|1|C|Stub");
 
             var sensor = new StubSensor(data.Path);
 
@@ -70,7 +70,7 @@ namespace SmartShop.Tests.Core
         {
             // Arrange
             using var data = new TempDataFile(
-                "2026-11-17T12:00:00Z|StubSensor|4|C|Stub");
+                "StubSensor|4|C|Stub");
 
             var sensor = new StubSensor(data.Path);
 
@@ -106,7 +106,7 @@ namespace SmartShop.Tests.Core
         {
             // Arrange
             using var data = new TempDataFile(
-                "2026-11-17T12:00:00Z|ShelfStockSensor|42|%|Shelf Stock");
+                "ShelfStockSensor|42|%|Shelf Stock");
 
             var sensor = new StubSensor(data.Path);
 
@@ -124,8 +124,8 @@ namespace SmartShop.Tests.Core
         {
             // Arrange
             using var data = new TempDataFile(
-                "2026-11-17T12:00:00Z|StubSensor|4|C|Stub",
-                "2026-11-17T12:00:01Z|StubSensor|n/a|C|Stub");
+                "StubSensor|4|C|Stub",
+                "StubSensor|n/a|C|Stub");
 
             var sensor = new StubSensor(data.Path);
 
@@ -149,9 +149,9 @@ namespace SmartShop.Tests.Core
             using var data = new TempDataFile(
                 "# header",
                 "",
-                "2026-11-17T12:00:00Z|StubSensor|5|C|Stub",
+                "StubSensor|5|C|Stub",
                 "# another comment",
-                "2026-11-17T12:00:01Z|StubSensor|6|C|Stub");
+                "StubSensor|6|C|Stub");
 
             var sensor = new StubSensor(data.Path);
 

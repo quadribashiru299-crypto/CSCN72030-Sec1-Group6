@@ -1,19 +1,19 @@
 # SmartShop ShelfStockSensor looped simulation data
-# Format: timestamp|device|value|unit|label
+# Format: device|value|unit|label
 # value = percentage of shelf capacity still stocked (0-100)
 # Thresholds (see ShelfStockSensor): low warning 20, low critical 10
 # Sequence covers every band, then loops back to the first record:
 #   92 normal, 30 normal, 20 warning, 12 warning, 9 critical, 4 critical, ...
 
-2026-11-21T09:00:00Z|ShelfStockSensor|92|%|Shelf Stock Level
-2026-11-21T09:00:10Z|ShelfStockSensor|78|%|Shelf Stock Level
-2026-11-21T09:00:20Z|ShelfStockSensor|65|%|Shelf Stock Level
-2026-11-21T09:00:30Z|ShelfStockSensor|54|%|Shelf Stock Level
-2026-11-21T09:00:40Z|ShelfStockSensor|41|%|Shelf Stock Level
-2026-11-21T09:00:50Z|ShelfStockSensor|30|%|Shelf Stock Level
-2026-11-21T09:01:00Z|ShelfStockSensor|22|%|Shelf Stock Level
-2026-11-21T09:01:10Z|ShelfStockSensor|20|%|Shelf Stock Level
-2026-11-21T09:01:20Z|ShelfStockSensor|18|%|Shelf Stock Level
-2026-11-21T09:01:30Z|ShelfStockSensor|12|%|Shelf Stock Level
-2026-11-21T09:01:40Z|ShelfStockSensor|9|%|Shelf Stock Level
-2026-11-21T09:01:50Z|ShelfStockSensor|4|%|Shelf Stock Level
+ShelfStockSensor|92|%|Shelf Stock Level
+ShelfStockSensor|78|%|Shelf Stock Level
+ShelfStockSensor|65|%|Shelf Stock Level
+ShelfStockSensor|54|%|Shelf Stock Level
+ShelfStockSensor|41|%|Shelf Stock Level
+ShelfStockSensor|30|%|Shelf Stock Level
+ShelfStockSensor|22|%|Shelf Stock Level
+ShelfStockSensor|20|%|Shelf Stock Level
+ShelfStockSensor|18|%|Shelf Stock Level
+ShelfStockSensor|12|%|Shelf Stock Level
+ShelfStockSensor|9|%|Shelf Stock Level
+ShelfStockSensor|4|%|Shelf Stock Level

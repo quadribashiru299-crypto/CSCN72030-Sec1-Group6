@@ -1,9 +1,9 @@
 # SmartShop OccupancySensor looped simulation data
-# Format: timestamp|device|value|unit|label
-2026-11-17T12:00:00Z|OccupancySensor|8|count|Store Occupancy
-2026-11-17T12:00:01Z|OccupancySensor|14|count|Store Occupancy
-2026-11-17T12:00:02Z|OccupancySensor|15|count|Store Occupancy
-2026-11-17T12:00:03Z|OccupancySensor|18|count|Store Occupancy
-2026-11-17T12:00:04Z|OccupancySensor|20|count|Store Occupancy
-2026-11-17T12:00:05Z|OccupancySensor|22|count|Store Occupancy
-2026-11-17T12:00:06Z|OccupancySensor|11|count|Store Occupancy
+# Format: device|value|unit|label
+OccupancySensor|8|count|Store Occupancy
+OccupancySensor|14|count|Store Occupancy
+OccupancySensor|15|count|Store Occupancy
+OccupancySensor|18|count|Store Occupancy
+OccupancySensor|20|count|Store Occupancy
+OccupancySensor|22|count|Store Occupancy
+OccupancySensor|11|count|Store Occupancy

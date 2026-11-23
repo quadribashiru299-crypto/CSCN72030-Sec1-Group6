@@ -44,12 +44,10 @@ internal sealed class LoopedDeviceFile(string path)
 
         string record = records[index];
         string[] fields = record.Split('|');
-        if (fields.Length < 4
-            || !string.Equals(fields[1].Trim(), deviceKey, StringComparison.OrdinalIgnoreCase)
-            || !string.Equals(fields[3].Trim(), unit, StringComparison.OrdinalIgnoreCase)
-            || !DateTime.TryParse(fields[0], CultureInfo.InvariantCulture,
-                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out _)
-            || !double.TryParse(fields[2], NumberStyles.Float, CultureInfo.InvariantCulture, out value)
+        if (fields.Length < 3
+            || !string.Equals(fields[0].Trim(), deviceKey, StringComparison.OrdinalIgnoreCase)
+            || !string.Equals(fields[2].Trim(), unit, StringComparison.OrdinalIgnoreCase)
+            || !double.TryParse(fields[1], NumberStyles.Float, CultureInfo.InvariantCulture, out value)
             || !double.IsFinite(value))
         {
             error = $"Invalid {deviceKey} record: '{record}'.";
