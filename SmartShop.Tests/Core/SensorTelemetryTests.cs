@@ -106,7 +106,7 @@ namespace SmartShop.Tests.Core
         {
             // Arrange
             using var data = new TempDataFile(
-                "ShelfStockSensor|42|%");
+                "ShelfStockSensor|42|count");
 
             var sensor = new StubSensor(data.Path);
 

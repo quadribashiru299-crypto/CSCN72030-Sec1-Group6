@@ -86,7 +86,7 @@ instead of blanking the tile.
 |--------|---------------|------------|----------------|
 | `OccupancySensor` | `count` or `people` | finite, non-negative, whole number | threshold bands: `HighWarning`, `HighCritical` |
 | `EntranceLockController` | `bool` | `1` = `Locked`, `0` = `Unlocked`, anything else invalid | `Normal` when a state is confirmed |
-| Threshold sensors (`RefrigeratorTemperature`, `ShelfStockSensor`, …) | declared in the constructor, e.g. `C` / `%` | finite; range validated by the device's `Validate()` | `LowCritical` / `LowWarning` / `HighWarning` / `HighCritical`, both bands inclusive |
+| Threshold sensors (`RefrigeratorTemperature`, `ShelfStockSensor`, …) | declared in the constructor, e.g. `C` / `count` | finite; range validated by the device's `Validate()` | `LowCritical` / `LowWarning` / `HighWarning` / `HighCritical`, both bands inclusive |
 
 ## Example file
 
