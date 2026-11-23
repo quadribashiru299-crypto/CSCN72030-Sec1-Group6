@@ -36,7 +36,7 @@ objects and their data contract.
 | REQ-TEL-002 | `GetTelemetry()` publishes `Value`, `Unit`, `Status` and `LastUpdated` on every poll. |
 | REQ-TEL-003 | A missing file or invalid record sets `IsDataAvailable = false` and keeps the last known `Value`. |
 | REQ-TEL-005 | `RefrigeratorTemperature` publishes the refrigerator temperature in `C`. |
-| REQ-TEL-007 | `ShelfStockSensor` publishes the remaining shelf stock as a percentage. |
+| REQ-TEL-007 | `ShelfStockSensor` publishes the number of items currently on the shelf. |
 | REQ-STS-001 | `ClassifyStatus()` maps the value to one of three states. |
 | REQ-STS-002 | Thresholds are injected through the constructor; the defaults live in constants. |
 | REQ-INT-TEL-001 | Both publish the shared `TelemetryPayload` structure. |
@@ -72,8 +72,8 @@ device|value|unit
 | Field | RefrigeratorTemperature | ShelfStockSensor |
 |---|---|---|
 | `device` | `RefrigeratorTemperature` | `ShelfStockSensor` |
-| `value` | temperature in `C` | remaining stock in `%` |
-| `unit` | `C` | `%` |
+| `value` | temperature in `C` | number of items on the shelf |
+| `unit` | `C` | `count` |
 
 Rules inherited from the base class: blank lines and `#` comments are skipped,
 `device` must match the class simulation key (case-insensitive), the record must
@@ -84,7 +84,7 @@ have exactly three fields, and the cursor wraps at the end of the file.
 | Device | DeviceId | DeviceName | Unit | Source file |
 |---|---|---|---|---|
 | `RefrigeratorTemperature` | 2 | `Refrigerator Temperature` | `C` | `Data/refrigerator_temperature.txt` |
-| `ShelfStockSensor` | 4 | `Shelf Stock Level` | `%` | `Data/shelf_stock_sensor.txt` |
+| `ShelfStockSensor` | 4 | `Shelf Stock Level` | `count` | `Data/shelf_stock_sensor.txt` |
 
 The IDs follow the SRS device list order (sensors 1–7, controllers 11–12) and
 match the demo project's identifiers. Both data files are added by T03
@@ -219,13 +219,13 @@ public class ShelfStockSensor : Sensor
 {
     public const string SensorKey = "ShelfStockSensor";
     public const int    DefaultDeviceId = 4;
-    public const string DefaultUnit = "%";
+    public const string DefaultUnit = "count";
 
-    public const double DefaultLowCritical = 10.0;   // <= 10  Critical (shelf nearly empty)
-    public const double DefaultLowWarning  = 20.0;   // <= 20  Warning  (restock soon)
+    public const double DefaultLowCritical = 10.0;   // <= 10 items  Critical (shelf nearly empty)
+    public const double DefaultLowWarning  = 20.0;   // <= 20 items  Warning  (restock soon)
 
-    public const double MinPlausibleStock = 0.0;
-    public const double MaxPlausibleStock = 100.0;
+    public const double MinPlausibleCount = 0.0;
+    public const double MaxShelfCapacity  = 100.0;   // items a single shelf section can hold
 
     public ShelfStockSensor(string dataFilePath, int deviceId = DefaultDeviceId,
                             ThresholdConfig? thresholds = null);
@@ -237,24 +237,36 @@ Only the low bands are configured. High stock is never a problem, so
 `HighWarning` / `HighCritical` stay `null` and the engine always returns
 `Normal` from that side.
 
-### 5.2 Constructor behaviour
+### 5.2 What the sensor publishes
+
+`Value` is the **absolute number of items currently on the shelf**, unit
+`count`. No percentage is computed, stored or published anywhere in the device,
+the payload or the dashboard tile.
+
+Rationale: a percentage cannot answer the question the rest of the system
+actually asks — "how many units of item X are left". Publishing a count keeps
+one unit of meaning through the whole pipeline, and if the team later adds a
+per-item stock table (T24) the published number is simply the sum of that table
+instead of a derived ratio.
+
+### 5.3 Constructor behaviour
 
 Same pattern as `RefrigeratorTemperature`:
 
-- `DeviceName = "Shelf Stock Level"`, `Unit = "%"`.
-- Defaults `LowWarning = 20`, `LowCritical = 10`, high bands unset.
+- `DeviceName = "Shelf Stock Level"`, `Unit = "count"`.
+- Defaults `LowWarning = 20`, `LowCritical = 10` (items), high bands unset.
 - Starts unavailable with `Status = Warning`.
 
-### 5.3 Validation rule
+### 5.4 Validation rule
 
 ```csharp
 public override bool Validate()
 {
-    bool valid = CandidateValue is double pct
-              && double.IsFinite(pct)
-              && pct >= MinPlausibleStock
-              && pct <= MaxPlausibleStock
-              && pct == Math.Floor(pct);
+    bool valid = CandidateValue is double items
+              && double.IsFinite(items)
+              && items >= MinPlausibleCount
+              && items <= MaxShelfCapacity
+              && items == Math.Floor(items);
     IsDataAvailable = valid;
     return valid;
 }
@@ -262,17 +274,17 @@ public override bool Validate()
 
 Rationale:
 
-- The field is a percentage of capacity, so `0…100` is the only meaningful range.
-- `pct == Math.Floor(pct)` keeps the dashboard reading in whole percent units and
-  rejects half-parsed records such as `73.5` that the file should not contain.
-  The records in `shelf_stock_sensor.txt` are all whole numbers.
+- The field is a physical item count, so it must be a whole number; `73.5`
+  means the record was mis-parsed and is rejected.
+- `0…100` is the meaningful range for one shelf section; `101` or `-1` is a
+  corrupted record, not a real reading.
 
-### 5.4 Status mapping
+### 5.5 Status mapping
 
-| Value | Band hit | Status |
+| Value (items) | Band hit | Status |
 |---|---|---|
 | 21 – 100 | none | Normal |
-| 10.01 – 20 | `LowWarning` | Warning |
+| 11 – 20 | `LowWarning` | Warning |
 | ≤ 10 | `LowCritical` | Critical |
 
 Sample from `shelf_stock_sensor.txt`:
@@ -284,18 +296,18 @@ Sample from `shelf_stock_sensor.txt`:
 | 11 | 9 | Critical |
 | 12 | 4 | Critical |
 
-### 5.5 Test matrix (for T16)
+### 5.6 Test matrix (for T16)
 
 | # | Case | Expected |
 |---|---|---|
-| 1 | First read | `92`, Normal, unit `%` |
+| 1 | First read | `92`, Normal, unit `count` |
 | 2 | Record holding `20` | Warning (inclusive) |
 | 3 | Record holding `9` | Critical |
 | 4 | Value `0` | Critical, still valid data |
 | 5 | Value `100` | Normal |
 | 6 | Value `101` | Rejected, unavailable |
 | 7 | Value `-1` | Rejected, unavailable |
-| 8 | Value `73.5` | Rejected (not a whole percent) |
+| 8 | Value `73.5` | Rejected (not a whole item count) |
 | 9 | Poll full loop | Cursor wraps correctly |
 | 10 | Missing file | Unavailable, no exception |
 | 11 | Foreign device key | Rejected |
@@ -329,20 +341,21 @@ bool TryRemoveStock(string itemId, int quantity, out string? errorMessage);
 
 Two different notions of "stock" meet here:
 
-1. **This sensor** reports an aggregate percentage of shelf capacity, one value
-   per poll, driven by the simulation file.
+1. **This sensor** reports one whole number per poll — the total item count on
+   the shelf — driven by the simulation file.
 2. **The kiosk** needs per-item quantities (`MILK-1L`, `BREAD`, …) that decrease
    when a simulated purchase happens.
 
-A percentage cannot answer "is there milk left". **Design decision:** T16 does
-not implement `IShelfStock`. The percentage sensor stays a pure monitor; the
+**Design decision:** T16 does not implement `IShelfStock`. A single total count
+still cannot answer "is there milk left", and mixing a file-driven total with a
+purchase-driven item table would make two writers own the same value. The
 per-item stock table belongs to the kiosk domain (an in-memory inventory
 repository owned by T24, exactly like the `FakeShelf` in its tests).
 
 If the team decides the kiosk must write through this sensor, the follow-up
-design adds an item-level store inside `ShelfStockSensor` plus a rule for
-recomputing the published percentage from it. That is a separate change and
-must not be smuggled into T16.
+design adds an item-level store inside `ShelfStockSensor` and makes the published
+count the sum of that store. That is a separate change and must not be smuggled
+into T16.
 
 ---
 
@@ -353,8 +366,9 @@ must not be smuggled into T16.
 | 1 | Confirm `RefrigeratorTemperature` unit string (`C` vs `°C`) | `C`, matching the existing data file and `StoreTemperatureSensor` | Weiming / Kristyna |
 | 2 | Confirm device IDs 2 and 4 against the SRS device list | Accepted from the demo project ordering | Team |
 | 3 | Should low-critical for refrigerator be `2` (near freezing) or `0`? | `2` — produce quality degrades before freezing | Weiming (tune in T30) |
-| 4 | Whole-percent rule for shelf stock | Enforced; relax only if the data source becomes fractional | Weiming |
-| 5 | Per-item inventory for the kiosk | Out of T16; belongs to T24 | Bashiru / Weiming |
+| 4 | Whole-item-count rule for shelf stock | Enforced; a fractional value means a mis-parsed record | Weiming |
+| 5 | Data file `shelf_stock_sensor.txt` unit column | Must change from `%` to `count`; values stay the same (T03 branch) | Weiming |
+| 6 | Per-item inventory for the kiosk | Out of T16; belongs to T24 | Bashiru / Weiming |
 
 ---
 
