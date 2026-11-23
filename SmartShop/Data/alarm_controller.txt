@@ -1,5 +1,5 @@
-# Format: device|value|unit|label
+# Format: device|value|unit
 # 0 = Inactive, 1 = Active
-AlarmController|0|bool|Alarm
-AlarmController|1|bool|Alarm
-AlarmController|0|bool|Alarm
+AlarmController|0|bool
+AlarmController|1|bool
+AlarmController|0|bool

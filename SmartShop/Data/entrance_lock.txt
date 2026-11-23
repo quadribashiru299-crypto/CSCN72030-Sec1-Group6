@@ -1,8 +1,8 @@
 # SmartShop EntranceLockController looped simulation data
 # 0 = Unlocked, 1 = Locked
-# Format: device|value|unit|label
-EntranceLockController|0|bool|Entrance Lock
-EntranceLockController|0|bool|Entrance Lock
-EntranceLockController|1|bool|Entrance Lock
-EntranceLockController|1|bool|Entrance Lock
-EntranceLockController|0|bool|Entrance Lock
+# Format: device|value|unit
+EntranceLockController|0|bool
+EntranceLockController|0|bool
+EntranceLockController|1|bool
+EntranceLockController|1|bool
+EntranceLockController|0|bool

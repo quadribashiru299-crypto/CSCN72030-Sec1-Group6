@@ -1,19 +1,19 @@
 # SmartShop StoreTemperatureSensor looped simulation data
-# Format: device|value|unit|label
+# Format: device|value|unit
 # value = shop-floor air temperature in degrees Celsius
 # Thresholds (see StoreTemperatureSensor): low critical 15, low warning 18, high warning 26, high critical 30
 # Sequence covers every band, then loops back to the first record:
 #   22.0 normal, 26.0 warning, 30.5 critical, 24.0 normal, 17.5 warning, 15.0 critical, ...
 
-StoreTemperatureSensor|22.0|C|Store Temperature
-StoreTemperatureSensor|23.5|C|Store Temperature
-StoreTemperatureSensor|25.0|C|Store Temperature
-StoreTemperatureSensor|26.0|C|Store Temperature
-StoreTemperatureSensor|27.5|C|Store Temperature
-StoreTemperatureSensor|29.0|C|Store Temperature
-StoreTemperatureSensor|30.5|C|Store Temperature
-StoreTemperatureSensor|31.0|C|Store Temperature
-StoreTemperatureSensor|24.0|C|Store Temperature
-StoreTemperatureSensor|17.5|C|Store Temperature
-StoreTemperatureSensor|15.0|C|Store Temperature
-StoreTemperatureSensor|14.2|C|Store Temperature
+StoreTemperatureSensor|22.0|C
+StoreTemperatureSensor|23.5|C
+StoreTemperatureSensor|25.0|C
+StoreTemperatureSensor|26.0|C
+StoreTemperatureSensor|27.5|C
+StoreTemperatureSensor|29.0|C
+StoreTemperatureSensor|30.5|C
+StoreTemperatureSensor|31.0|C
+StoreTemperatureSensor|24.0|C
+StoreTemperatureSensor|17.5|C
+StoreTemperatureSensor|15.0|C
+StoreTemperatureSensor|14.2|C

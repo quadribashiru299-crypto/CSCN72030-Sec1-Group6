@@ -45,9 +45,9 @@ namespace SmartShop.Tests.Core
             // Arrange
             using var data = new TempDataFile(
                 "# Stub sensor looped simulation data",
-                "StubSensor|4|C|Stub",
-                "StubSensor|9|C|Stub",
-                "StubSensor|1|C|Stub");
+                "StubSensor|4|C",
+                "StubSensor|9|C",
+                "StubSensor|1|C");
 
             var sensor = new StubSensor(data.Path);
 
@@ -70,7 +70,7 @@ namespace SmartShop.Tests.Core
         {
             // Arrange
             using var data = new TempDataFile(
-                "StubSensor|4|C|Stub");
+                "StubSensor|4|C");
 
             var sensor = new StubSensor(data.Path);
 
@@ -106,7 +106,25 @@ namespace SmartShop.Tests.Core
         {
             // Arrange
             using var data = new TempDataFile(
-                "ShelfStockSensor|42|%|Shelf Stock");
+                "ShelfStockSensor|42|%");
+
+            var sensor = new StubSensor(data.Path);
+
+            // Act
+            sensor.GetTelemetry();
+
+            // Assert
+            Assert.False(sensor.IsDataAvailable);
+            Assert.Null(sensor.Value);
+            Assert.NotNull(sensor.LastSimulationError);
+        }
+
+        [Fact]
+        public void RecordWithExtraField_IsRejected()
+        {
+            // Arrange: one more pipe-separated field than the three-field contract.
+            using var data = new TempDataFile(
+                "StubSensor|4|C|Stub");
 
             var sensor = new StubSensor(data.Path);
 
@@ -124,8 +142,8 @@ namespace SmartShop.Tests.Core
         {
             // Arrange
             using var data = new TempDataFile(
-                "StubSensor|4|C|Stub",
-                "StubSensor|n/a|C|Stub");
+                "StubSensor|4|C",
+                "StubSensor|n/a|C");
 
             var sensor = new StubSensor(data.Path);
 
@@ -149,9 +167,9 @@ namespace SmartShop.Tests.Core
             using var data = new TempDataFile(
                 "# header",
                 "",
-                "StubSensor|5|C|Stub",
+                "StubSensor|5|C",
                 "# another comment",
-                "StubSensor|6|C|Stub");
+                "StubSensor|6|C");
 
             var sensor = new StubSensor(data.Path);
 

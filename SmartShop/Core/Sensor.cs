@@ -179,14 +179,15 @@ namespace SmartShop.Core
         }
 
         /// <summary>
-        /// Splits "key|value|unit|label" and returns the numeric value only when
-        /// the key matches this sensor and the value is numeric.
+        /// Splits "key|value|unit" and returns the numeric value only when the key
+        /// matches this sensor, the record holds exactly three fields and the
+        /// value is numeric.
         /// </summary>
         private double? ParseValue(string record)
         {
             string[] fields = record.Split('|');
 
-            if (fields.Length < 3)
+            if (fields.Length != 3)
             {
                 return null;
             }

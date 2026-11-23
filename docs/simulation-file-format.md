@@ -18,8 +18,8 @@ poll, and loops forever (T03).
 
 ```
 # a comment line, ignored
-device|value|unit|label
-OccupancySensor|8|count|Store Occupancy
+device|value|unit
+OccupancySensor|8|count
 ```
 
 Fields, in order, separated by a single `|`:
@@ -29,14 +29,14 @@ Fields, in order, separated by a single `|`:
 | 1 | `device` | yes | string | Simulation key of the producing device; must match the reading class (case-insensitive). |
 | 2 | `value` | yes | floating point | Measured value, parsed with the invariant culture (`.` decimal separator). |
 | 3 | `unit` | yes | string | Unit of measure (REQ-TEL-002), e.g. `C`, `%`, `count`, `bool`. |
-| 4 | `label` | no | string | Human-readable name for the HMI. Informational only; defaults to the device key. |
 
 Records carry no timestamp: the file is a loop, so a replayed record is treated
 as fresh and the reader stamps `LastUpdated` with the current UTC time when it
 successfully consumes the record.
 
-At least the first three fields must be present. A record with fewer than three
-`|`-separated fields is invalid.
+A record must contain **exactly three** `|`-separated fields. Fewer means the
+record is incomplete; more means an unsupported column is present. Either way the
+record is rejected.
 
 ## Parsing rules
 
@@ -92,12 +92,12 @@ instead of blanking the tile.
 
 ```
 # SmartShop OccupancySensor looped simulation data
-# Format: device|value|unit|label
-OccupancySensor|8|count|Store Occupancy
-OccupancySensor|14|count|Store Occupancy
-OccupancySensor|15|count|Store Occupancy
-OccupancySensor|18|count|Store Occupancy
-OccupancySensor|20|count|Store Occupancy
+# Format: device|value|unit
+OccupancySensor|8|count
+OccupancySensor|14|count
+OccupancySensor|15|count
+OccupancySensor|18|count
+OccupancySensor|20|count
 ```
 
 Polling this file four times yields `8` (`Normal`), `14` (`Normal`), `15`
