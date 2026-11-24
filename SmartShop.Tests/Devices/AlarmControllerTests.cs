@@ -5,8 +5,8 @@ namespace SmartShop.Tests.Devices;
 
 public class AlarmControllerTests
 {
-    private const string InactiveRecord = "2026-11-20T12:00:00Z|AlarmController|0|bool";
-    private const string ActiveRecord = "2026-11-20T12:00:01Z|AlarmController|1|bool";
+    private const string InactiveRecord = "AlarmController|0|bool";
+    private const string ActiveRecord = "AlarmController|1|bool";
 
     [Fact]
     public void ReadData_UsesCurrentUtcTimeAndLoopsAfterTheLastRecord()
@@ -36,7 +36,7 @@ public class AlarmControllerTests
     [Fact]
     public void ReadData_RetainsLastConfirmedStateWhenFeedbackIsInvalid()
     {
-        using var data = new TempDataFile(ActiveRecord, "2026-11-20T12:00:02Z|AlarmController|2|bool");
+        using var data = new TempDataFile(ActiveRecord, "AlarmController|2|bool");
         var alarm = new AlarmController(data.Path);
         alarm.ReadData();
         DateTime lastValidTimestamp = alarm.LastUpdated;

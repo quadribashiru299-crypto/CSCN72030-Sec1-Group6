@@ -203,29 +203,23 @@ namespace SmartShop.Devices
         {
             string[] fields = record.Split('|');
 
-            if (fields.Length < 4)
+            if (fields.Length < 3)
             {
                 return null;
             }
 
-            bool hasTimestamp = DateTime.TryParse(
-                fields[0].Trim(),
-                CultureInfo.InvariantCulture,
-                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
-                out _);
-
             bool isEntranceLock = string.Equals(
-                fields[1].Trim(),
+                fields[0].Trim(),
                 DeviceKey,
                 StringComparison.OrdinalIgnoreCase);
 
             bool hasValue = double.TryParse(
-                fields[2].Trim(),
+                fields[1].Trim(),
                 NumberStyles.Float,
                 CultureInfo.InvariantCulture,
                 out double value);
 
-            if (!hasTimestamp || !isEntranceLock || !hasValue)
+            if (!isEntranceLock || !hasValue)
             {
                 return null;
             }
