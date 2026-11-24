@@ -5,6 +5,8 @@ using SmartShop.Core;
 using SmartShop.Devices;
 using SmartShop.Models;
 
+// PowerShell comand: dotnet publish -c Release -o ./ReleaseCandidate
+
 namespace SmartShop
 {
     public class Demo
