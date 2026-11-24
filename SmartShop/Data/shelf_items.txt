@@ -1,0 +1,11 @@
+# SmartShop ShelfStockSensor per-item baseline inventory
+# Format: itemId|quantity
+# The sensor publishes the sum of these counts as its value (unit = count).
+# A successful TryRemoveStock (kiosk sale) decreases the matching line's count.
+
+MILK-1L|12
+BREAD|8
+EGGS-12|10
+COFFEE-BEAN|6
+WATER-1L|9
+APPLE|7
