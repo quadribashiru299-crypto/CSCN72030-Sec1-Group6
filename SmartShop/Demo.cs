@@ -93,6 +93,7 @@ namespace SmartShop
             Console.WriteLine("       SmartShop Demo finished successfully       ");
             Console.WriteLine("==================================================\n");
 
+            Console.ReadKey();
         }
     }
 }
