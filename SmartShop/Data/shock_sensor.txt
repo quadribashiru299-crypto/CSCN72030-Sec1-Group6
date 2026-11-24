@@ -1,5 +1,5 @@
-# Format: timestamp|device|value|unit|label
-2026-11-20T12:00:00Z|ShockSensor|0.1|g|Showcase Shock
-2026-11-20T12:00:01Z|ShockSensor|1.0|g|Showcase Shock
-2026-11-20T12:00:02Z|ShockSensor|2.2|g|Showcase Shock
-2026-11-20T12:00:03Z|ShockSensor|0.2|g|Showcase Shock
+# Format: device|value|unit
+ShockSensor|0.1|g
+ShockSensor|1.0|g
+ShockSensor|2.2|g
+ShockSensor|0.2|g

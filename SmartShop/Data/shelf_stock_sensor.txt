@@ -1,0 +1,19 @@
+# SmartShop ShelfStockSensor looped simulation data
+# Format: device|value|unit
+# value = number of items currently on the shelf (0-100)
+# Thresholds (see ShelfStockSensor): low warning 20 items, low critical 10 items
+# Sequence covers every band, then loops back to the first record:
+#   92 normal, 30 normal, 20 warning, 12 warning, 9 critical, 4 critical, ...
+
+ShelfStockSensor|92|count
+ShelfStockSensor|78|count
+ShelfStockSensor|65|count
+ShelfStockSensor|54|count
+ShelfStockSensor|41|count
+ShelfStockSensor|30|count
+ShelfStockSensor|22|count
+ShelfStockSensor|20|count
+ShelfStockSensor|18|count
+ShelfStockSensor|12|count
+ShelfStockSensor|9|count
+ShelfStockSensor|4|count
