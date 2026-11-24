@@ -14,3 +14,6 @@
 *.db-shm
 *.db-wal
 TestResults/
+
+## Demo release
+Demo/
