@@ -333,29 +333,30 @@ dashboard uses `IsDataAvailable` to grey the tile and label it "last known".
 
 ## 7. Collaboration with the kiosk purchase simulator (T24)
 
-`feature/t24-kiosk-purchase-simulator` defines a `Core/IShelfStock` contract:
+`SmartShop/Core/IShelfStock.cs` defines the contract the kiosk uses to take
+stock away after a sale:
 
 ```csharp
 bool TryRemoveStock(string itemId, int quantity, out string? errorMessage);
 ```
 
-Two different notions of "stock" meet here:
+`ShelfStockSensor` implements this interface. To make both a live count and
+per-item removals possible, it supports two data modes:
 
-1. **This sensor** reports one whole number per poll — the total item count on
-   the shelf — driven by the simulation file.
-2. **The kiosk** needs per-item quantities (`MILK-1L`, `BREAD`, …) that decrease
-   when a simulated purchase happens.
+1. **Per-item inventory (preferred).** When an item file is supplied
+   (`Data/shelf_items.txt`, format `itemId|quantity`), the sensor loads it as the
+   authoritative stock table. `Value` is the sum of those counts; `TryRemoveStock`
+   decreases one line and immediately republishes the new total and status. A
+   sale is applied only when the item is known, the quantity is positive and the
+   shelf holds enough, so a refused sale leaves the shelf untouched.
+2. **Loop file only.** With no item file, the looped simulation file is a
+   read-only total, exactly like the other threshold sensors. `TryRemoveStock`
+   returns `false` with an "unknown item" message because there is no per-item
+   state to change.
 
-**Design decision:** T16 does not implement `IShelfStock`. A single total count
-still cannot answer "is there milk left", and mixing a file-driven total with a
-purchase-driven item table would make two writers own the same value. The
-per-item stock table belongs to the kiosk domain (an in-memory inventory
-repository owned by T24, exactly like the `FakeShelf` in its tests).
-
-If the team decides the kiosk must write through this sensor, the follow-up
-design adds an item-level store inside `ShelfStockSensor` and makes the published
-count the sum of that store. That is a separate change and must not be smuggled
-into T16.
+Keeping the loop file as a fallback, rather than a second writer, is what
+prevents the next simulation record from silently overwriting a completed sale:
+in the per-item mode the looped file is never consulted for `Value`.
 
 ---
 
@@ -368,17 +369,22 @@ into T16.
 | 3 | Should low-critical for refrigerator be `2` (near freezing) or `0`? | `2` — produce quality degrades before freezing | Weiming (tune in T30) |
 | 4 | Whole-item-count rule for shelf stock | Enforced; a fractional value means a mis-parsed record | Weiming |
 | 5 | Data file `shelf_stock_sensor.txt` unit column | Must change from `%` to `count`; values stay the same (T03 branch) | Weiming |
-| 6 | Per-item inventory for the kiosk | Out of T16; belongs to T24 | Bashiru / Weiming |
+| 6 | Per-item inventory for the kiosk | Implemented in T16 (`IShelfStock` + `Data/shelf_items.txt`); item ids still to be agreed with T24 | Bashiru / Weiming |
 
 ---
 
-## 9. Implementation checklist (T16)
+## 9. Implementation status (T16)
 
-1. Create `SmartShop/Devices/RefrigeratorTemperature.cs` and `ShelfStockSensor.cs`
-   following sections 4 and 5.
-2. Confirm `Data/refrigerator_temperature.txt` and `Data/shelf_stock_sensor.txt`
-   are copied to the build output (already configured in `SmartShop.csproj`).
-3. Add `RefrigeratorTemperatureTests` and `ShelfStockSensorTests` covering the
-   matrices above (one test per row, plus the loop and failure cases).
-4. Run `dotnet test` locally; all tests green and zero warnings before opening
-   the T16 PR.
+Implemented on `feature/t16-refrigerator-shelfstock` (commit `ac22edb`), built on
+the T03 base-class reader:
+
+1. `SmartShop/Devices/RefrigeratorTemperature.cs` and `ShelfStockSensor.cs`
+   follow sections 4 and 5.
+2. `SmartShop/Core/IShelfStock.cs` plus `Data/shelf_items.txt` provide the
+   per-item mode described in section 7; `SmartShop.csproj` already copies
+   `Data\**\*.txt` to the output folder.
+3. `RefrigeratorTemperatureTests` (12 cases) and `ShelfStockSensorTests`
+   (15 cases) cover the matrices above, the loop, the failure cases and the
+   `TryRemoveStock` paths.
+4. `dotnet build` reports 0 warnings / 0 errors; the full suite passes
+   (71/71) on the build VM.
