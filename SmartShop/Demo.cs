@@ -9,6 +9,36 @@ namespace SmartShop
 {
     public class Demo
     {
+        private static void printCommandRequest(CommandRequest cmd)
+        {
+            Console.WriteLine("Printing CommandRequest:");
+            Console.WriteLine($"Command request for Device #{cmd.DeviceId}" +
+                $"\nRequested State: {cmd.RequestedState}" +
+                $"\nAdmin User ID: {cmd.AdminUserId}" +
+                $"\nTimestamp: {cmd.Timestamp:HH:mm:ss}"
+                );
+            Console.WriteLine("---------------------\n");
+        }
+        private static void printCommandResult(CommandResult res)
+        {
+            Console.WriteLine("Printing CommandResult:");
+            Console.Write($"Command request was success: ");
+            if (res.IsSuccess)
+            {
+                Console.Write("YES\n");
+            }
+            else
+            {
+                Console.Write("NO\n");
+            }
+            Console.WriteLine($"Confirmed State: {res.ConfirmedState}");
+            if (res.ErrorMessage != null) {
+                Console.WriteLine($"Error message: {res.ErrorMessage}");
+            }
+            Console.WriteLine("---------------------\n");
+            
+        }
+
         static void Main()
         {
             Console.WriteLine("==================================================");
@@ -30,10 +60,10 @@ namespace SmartShop
             AlarmController alarmController = new AlarmController("Data/alarm_controller.txt");
             Console.WriteLine("Simulated devices inicialized.\n");
 
-            Console.WriteLine("Reading telemetry from SmokeDetector...");
+            Console.WriteLine("Reading telemetry from SmokeDetector...\n");
             for (int i = 1; i <= 4; i++)
             {
-                Console.WriteLine($"\n--- Reading #{i} ---");
+                Console.WriteLine($"--- Reading #{i} ---");
 
                 smokeDetector.ReadData();
                 TelemetryPayload smokeTelemetry = smokeDetector.GetTelemetry();
@@ -41,7 +71,27 @@ namespace SmartShop
                 // publishing read data to the message bus
                 messageBus.Publish(smokeTelemetry);
             }
+            Console.WriteLine("Telemetry reading from SmokeDetector finished.\n");
 
+            Console.WriteLine("Reading initial telemetry from AlarmController...\n");
+            alarmController.ReadData();
+            TelemetryPayload alarmTelemetry = alarmController.GetTelemetry();
+            messageBus.Publish(alarmTelemetry);
+            Console.WriteLine("Reading initial telemetry from AlarmController finished.\n");
+
+            Console.WriteLine("Simulating sending a CommandRequest to AlarmController...\n");
+            CommandRequest cmd = new(alarmController.DeviceId, "Inactive", "this_is_admin_fr");
+            CommandResult res = alarmController.SetConfig(cmd);
+            Console.WriteLine("CommandRequest sent.\n");
+            printCommandRequest(cmd);
+            Console.WriteLine("CommandResult received.\n");
+            printCommandResult(res);
+            //Console.Write("\n");
+            messageBus.Publish(alarmController.GetTelemetry());
+
+            Console.WriteLine("\n==================================================");
+            Console.WriteLine("       SmartShop Demo finished successfully       ");
+            Console.WriteLine("==================================================\n");
 
         }
     }
