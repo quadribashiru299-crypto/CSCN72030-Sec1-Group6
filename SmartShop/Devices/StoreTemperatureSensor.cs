@@ -1,61 +1,81 @@
-﻿using SmartShop.Core;
+﻿using System;
+using SmartShop.Core;
 using SmartShop.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SmartShop.Devices
 {
-    public class StoreTemperatureSensor : Sensor
+    /// <summary>
+    /// Store ambient temperature sensor (T06). Reads the looped simulation file
+    /// through <see cref="Sensor"/> and classifies the value against the store
+    /// comfort bands: too cold below 19 C, too warm from 24 C.
+    /// </summary>
+    public sealed class StoreTemperatureSensor : Sensor
     {
-        private readonly string filePath;
-        public double? Humidity { get; set; } //we can leave this out as having two values for one sensor makes things bit more complicated
+        public const string SensorKey = "StoreTemperatureSensor";
+        public const int DefaultDeviceId = 1;
+        public const string DefaultUnit = "C";
+        public const string DefaultDeviceName = "Store Temperature";
 
-        public StoreTemperatureSensor(int id, string name, string filePath)
+        public const double DefaultLowCritical = 16.0;
+        public const double DefaultLowWarning = 19.0;
+        public const double DefaultHighWarning = 24.0;
+        public const double DefaultHighCritical = 27.0;
+
+        /// <summary>Values outside this window are corrupted records, not readings.</summary>
+        public const double MinPlausibleTemperature = -5.0;
+        public const double MaxPlausibleTemperature = 45.0;
+
+        /// <summary>
+        /// Reserved for the humidity reading; the current simulation file only
+        /// carries temperature, so it stays null.
+        /// </summary>
+        public double? Humidity { get; set; }
+
+        public static ThresholdConfig DefaultThresholds()
         {
-            ThresholdConfig storeTempSensorConfig = new ThresholdConfig
+            return new ThresholdConfig
             {
-                LowCritical = 16.0,
-                LowWarning = 19.0,
-                HighWarning = 24.0,
-                HighCritical = 27.0
+                LowCritical = DefaultLowCritical,
+                LowWarning = DefaultLowWarning,
+                HighWarning = DefaultHighWarning,
+                HighCritical = DefaultHighCritical
             };
-            this.DeviceId = id;
-            this.DeviceName = name;
-            this.Unit = "°C";
-            this.Thresholds = storeTempSensorConfig;
-            this.LastUpdated = DateTime.UtcNow;
-            this.filePath = filePath;
-            this.IsDataAvailable = false;
+        }
+
+        /// <param name="dataFilePath">Looped simulation file, e.g. Data/store_temperature_sensor.txt.</param>
+        /// <param name="deviceId">Device identifier, 1 by default.</param>
+        /// <param name="thresholds">Optional bands; the store comfort defaults are used when omitted.</param>
+        /// <param name="deviceName">Optional display name for the HMI.</param>
+        public StoreTemperatureSensor(
+            string dataFilePath,
+            int deviceId = DefaultDeviceId,
+            ThresholdConfig? thresholds = null,
+            string? deviceName = null)
+        {
+            if (dataFilePath is null)
+            {
+                throw new ArgumentNullException(nameof(dataFilePath));
+            }
+
+            SimulationFilePath = dataFilePath;
+            DeviceId = deviceId;
+            DeviceName = deviceName ?? DefaultDeviceName;
+            Unit = DefaultUnit;
+            Thresholds = thresholds ?? DefaultThresholds();
+
+            IsDataAvailable = false;
+            Status = DeviceStatus.Warning;
         }
 
         public override bool Validate()
         {
-            // adding all the conditions for unvalid results
-            // null
-            // max value that makes sense
-            // min value that makes sense
-            if(this.Value == null
-                || this.Value >= 45.0
-                || this.Value <= -5.0
-                || !double.IsFinite(this.Value.Value))
-            {
-                return false;
-            }
-            return true;
-        }
+            bool isValid = CandidateValue is double temperature
+                && double.IsFinite(temperature)
+                && temperature > MinPlausibleTemperature
+                && temperature < MaxPlausibleTemperature;
 
-        public override TelemetryPayload GetTelemetry()
-        {
-            TelemetryPayload result = new TelemetryPayload(this.DeviceId, this.Value, this.Unit, this.Status);
-            return result;
+            IsDataAvailable = isValid;
+            return isValid;
         }
-
-        public override void ReadData()
-        {
-            //placeholder for readData method until we figure out the files
-            //this sensor will need either two files or two sets of data in one file (temperature + humidity)
-        }
-
     }
 }
