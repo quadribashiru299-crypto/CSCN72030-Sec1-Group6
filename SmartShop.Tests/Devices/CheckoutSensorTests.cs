@@ -183,6 +183,27 @@ namespace SmartShop.Tests.Devices
         }
 
         [Fact]
+        public void ActiveLaneEvents_IsZeroBeforeAnyReading()
+        {
+            var sensor = new CheckoutSensor(TempDataFile.MissingPath());
+
+            Assert.Equal(0, sensor.ActiveLaneEvents);
+        }
+
+        [Fact]
+        public void ActiveLaneEvents_FollowsReadingsAndPurchases()
+        {
+            using var file = new TempDataFile(Line(4));
+            var sensor = new CheckoutSensor(file.Path);
+
+            sensor.ReadData();
+            Assert.Equal(4, sensor.ActiveLaneEvents);
+
+            sensor.RecordTransaction();
+            Assert.Equal(5, sensor.ActiveLaneEvents);
+        }
+
+        [Fact]
         public void Constructor_UsesGivenDeviceId()
         {
             var sensor = new CheckoutSensor(TempDataFile.MissingPath(), deviceId: 42);

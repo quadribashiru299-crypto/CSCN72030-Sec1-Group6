@@ -1,0 +1,18 @@
+# SmartShop RefrigeratorTemperature looped simulation data
+# Format: device|value|unit
+# Thresholds (see RefrigeratorTemperature): low critical 2, low warning 3, high warning 4, high critical 5
+# Sequence covers every band, then loops back to the first record:
+#   3.6 normal, 4.0 warning, 5.2 critical, 3.5 normal, 3.0 warning, 1.8 critical, ...
+
+RefrigeratorTemperature|3.6|C
+RefrigeratorTemperature|3.8|C
+RefrigeratorTemperature|4.0|C
+RefrigeratorTemperature|4.5|C
+RefrigeratorTemperature|5.2|C
+RefrigeratorTemperature|5.8|C
+RefrigeratorTemperature|3.5|C
+RefrigeratorTemperature|3.0|C
+RefrigeratorTemperature|2.6|C
+RefrigeratorTemperature|1.8|C
+RefrigeratorTemperature|2.4|C
+RefrigeratorTemperature|3.7|C

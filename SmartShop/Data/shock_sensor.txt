@@ -1,0 +1,5 @@
+# Format: device|value|unit
+ShockSensor|0.1|g
+ShockSensor|1.0|g
+ShockSensor|2.2|g
+ShockSensor|0.2|g

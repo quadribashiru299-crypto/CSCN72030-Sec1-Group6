@@ -207,6 +207,17 @@ namespace SmartShop.Tests.Devices
         }
 
         [Fact]
+        public void IsLaneOpen_ReflectsConfirmedState()
+        {
+            var controller = new CheckoutStationController();
+            Assert.True(controller.IsLaneOpen);
+
+            controller.SetConfig(Command("Closed"));
+
+            Assert.False(controller.IsLaneOpen);
+        }
+
+        [Fact]
         public void GetTelemetry_UsesSharedStructure()
         {
             var controller = new CheckoutStationController(deviceId: 77);

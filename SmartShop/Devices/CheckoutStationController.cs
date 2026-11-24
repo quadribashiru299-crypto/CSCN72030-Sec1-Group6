@@ -59,7 +59,8 @@ namespace SmartShop.Devices
             LastUpdated = DateTime.UtcNow;
         }
 
-        public bool IsOpen => CurrentConfig.State == StateOpen;
+        /// <summary>True when the lane is open (class diagram: IsLaneOpen).</summary>
+        public bool IsLaneOpen => CurrentConfig.State == StateOpen;
 
         /// <summary>
         /// Reads the next simulated lane state, restarting at the first record after the last.
@@ -168,7 +169,7 @@ namespace SmartShop.Devices
         /// <summary>Publishes the shared telemetry structure (REQ-INT-TEL-001): 1 = Open, 0 = Closed.</summary>
         public override TelemetryPayload GetTelemetry()
         {
-            double value = IsOpen ? 1 : 0;
+            double value = IsLaneOpen ? 1 : 0;
             return new TelemetryPayload(DeviceId, value, TelemetryUnit, Status, IsDataAvailable)
             {
                 Timestamp = LastUpdated

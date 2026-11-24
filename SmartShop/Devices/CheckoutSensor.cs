@@ -37,6 +37,12 @@ namespace SmartShop.Devices
         private int _nextRecordIndex;
         private double? _candidateValue;
 
+        /// <summary>
+        /// Current number of active checkout lane events (class diagram: ActiveLaneEvents).
+        /// Same reading as <see cref="Sensor.Value"/> as a whole number; 0 before the first reading.
+        /// </summary>
+        public int ActiveLaneEvents => Value is double v ? (int)v : 0;
+
         /// <summary>Number of simulated kiosk purchases recorded since start-up (REQ-KSK-002).</summary>
         public int TotalTransactions { get; private set; }
 

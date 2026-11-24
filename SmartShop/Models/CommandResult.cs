@@ -9,9 +9,9 @@ namespace SmartShop.Models
     {
         public bool IsSuccess { get; init; }
         public string ConfirmedState { get; init; }
-        public string ErrorMessage { get; init; }
+        public string? ErrorMessage { get; init; }
 
-        public CommandResult(bool isSuccess, string confirmedState, string errorMessage = null)
+        public CommandResult(bool isSuccess, string confirmedState, string? errorMessage = null)
         {
             IsSuccess = isSuccess;
             ConfirmedState = confirmedState;

@@ -1,0 +1,5 @@
+# Format: device|value|unit
+SmokeDetector|0|ppm
+SmokeDetector|25|ppm
+SmokeDetector|50|ppm
+SmokeDetector|10|ppm
