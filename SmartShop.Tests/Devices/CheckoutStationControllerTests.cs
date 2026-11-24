@@ -8,7 +8,7 @@ namespace SmartShop.Tests.Devices
         private const string Admin = "admin-01";
 
         private static string Line(int value, string device = CheckoutStationController.DeviceKey) =>
-            $"2026-11-16T09:00:00Z|{device}|{value}|bool|Checkout Lane 1";
+            $"{device}|{value}|bool";
 
         private static CommandRequest Command(string state, string adminUserId = Admin,
                                               int deviceId = CheckoutStationController.DefaultDeviceId) =>
@@ -191,8 +191,11 @@ namespace SmartShop.Tests.Devices
         }
 
         [Theory]
-        [InlineData("2026-11-16T09:00:00Z|CheckoutStationController|2|bool|Lane")]
-        [InlineData("2026-11-16T09:00:00Z|AlarmController|1|bool|Alarm")]
+        [InlineData("CheckoutStationController|2|bool")]
+        [InlineData("AlarmController|1|bool")]
+        [InlineData("CheckoutStationController|1|count")]
+        [InlineData("CheckoutStationController|1")]
+        [InlineData("2026-11-16T09:00:00Z|CheckoutStationController|1|bool|Checkout Lane 1")]
         [InlineData("garbage")]
         public void ReadData_InvalidRecord_MarksUnavailableAndKeepsLastState(string badRecord)
         {

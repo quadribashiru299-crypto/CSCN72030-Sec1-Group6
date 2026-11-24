@@ -1,25 +1,25 @@
-# CheckoutSensor simulation data (looped, REQ-SYS-010 / REQ-TEL-006)
-# Format: timestamp|sensorId|value|unit|label  (docs/simulation-file-format.md)
+# SmartShop CheckoutSensor looped simulation data (REQ-SYS-010 / REQ-TEL-006)
+# Format: device|value|unit  (docs/simulation-file-format.md)
 # value = customers being served or waiting at the self-checkout lanes
 # Default thresholds: Warning >= 6, Critical >= 9 (configurable)
-
-2026-11-16T09:00:00Z|CheckoutSensor|1|count|Checkout Activity
-2026-11-16T09:00:05Z|CheckoutSensor|2|count|Checkout Activity
-2026-11-16T09:00:10Z|CheckoutSensor|2|count|Checkout Activity
-2026-11-16T09:00:15Z|CheckoutSensor|3|count|Checkout Activity
-2026-11-16T09:00:20Z|CheckoutSensor|4|count|Checkout Activity
-2026-11-16T09:00:25Z|CheckoutSensor|3|count|Checkout Activity
-2026-11-16T09:00:30Z|CheckoutSensor|5|count|Checkout Activity
-2026-11-16T09:00:35Z|CheckoutSensor|6|count|Checkout Activity
-2026-11-16T09:00:40Z|CheckoutSensor|7|count|Checkout Activity
-2026-11-16T09:00:45Z|CheckoutSensor|6|count|Checkout Activity
-2026-11-16T09:00:50Z|CheckoutSensor|8|count|Checkout Activity
-2026-11-16T09:00:55Z|CheckoutSensor|9|count|Checkout Activity
-2026-11-16T09:01:00Z|CheckoutSensor|10|count|Checkout Activity
-2026-11-16T09:01:05Z|CheckoutSensor|8|count|Checkout Activity
-2026-11-16T09:01:10Z|CheckoutSensor|6|count|Checkout Activity
-2026-11-16T09:01:15Z|CheckoutSensor|5|count|Checkout Activity
-2026-11-16T09:01:20Z|CheckoutSensor|4|count|Checkout Activity
-2026-11-16T09:01:25Z|CheckoutSensor|3|count|Checkout Activity
-2026-11-16T09:01:30Z|CheckoutSensor|2|count|Checkout Activity
-2026-11-16T09:01:35Z|CheckoutSensor|1|count|Checkout Activity
+# Sequence rises Normal -> Warning -> Critical, falls back to Normal, then loops.
+CheckoutSensor|1|count
+CheckoutSensor|2|count
+CheckoutSensor|2|count
+CheckoutSensor|3|count
+CheckoutSensor|4|count
+CheckoutSensor|3|count
+CheckoutSensor|5|count
+CheckoutSensor|6|count
+CheckoutSensor|7|count
+CheckoutSensor|6|count
+CheckoutSensor|8|count
+CheckoutSensor|9|count
+CheckoutSensor|10|count
+CheckoutSensor|8|count
+CheckoutSensor|6|count
+CheckoutSensor|5|count
+CheckoutSensor|4|count
+CheckoutSensor|3|count
+CheckoutSensor|2|count
+CheckoutSensor|1|count

@@ -86,6 +86,8 @@ instead of blanking the tile.
 |--------|---------------|------------|----------------|
 | `OccupancySensor` | `count` or `people` | finite, non-negative, whole number | threshold bands: `HighWarning`, `HighCritical` |
 | `EntranceLockController` | `bool` | `1` = `Locked`, `0` = `Unlocked`, anything else invalid | `Normal` when a state is confirmed |
+| `CheckoutSensor` | `count` | finite, whole number, `0`–`100` | threshold bands: `HighWarning` (6), `HighCritical` (9) |
+| `CheckoutStationController` | `bool` | `1` = `Open`, `0` = `Closed`, anything else invalid | `Normal` when a state is confirmed; admin override ignores the file until resumed |
 | Threshold sensors (`RefrigeratorTemperature`, `ShelfStockSensor`, …) | declared in the constructor, e.g. `C` / `count` | finite; range validated by the device's `Validate()` | `LowCritical` / `LowWarning` / `HighWarning` / `HighCritical`, both bands inclusive |
 
 ## Example file
