@@ -89,6 +89,16 @@ namespace SmartShop
             //Console.Write("\n");
             messageBus.Publish(alarmController.GetTelemetry());
 
+            Console.WriteLine("Simulating sending a CommandRequest to AlarmController...\n");
+            cmd = new(alarmController.DeviceId, "Active", "this_is_admin_fr");
+            res = alarmController.SetConfig(cmd);
+            Console.WriteLine("CommandRequest sent.\n");
+            printCommandRequest(cmd);
+            Console.WriteLine("CommandResult received.\n");
+            printCommandResult(res);
+            //Console.Write("\n");
+            messageBus.Publish(alarmController.GetTelemetry());
+
             Console.WriteLine("\n==================================================");
             Console.WriteLine("       SmartShop Demo finished successfully       ");
             Console.WriteLine("==================================================\n");
