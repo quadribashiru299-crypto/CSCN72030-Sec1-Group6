@@ -15,8 +15,8 @@ namespace SmartShop.Devices
     /// The displayed state only changes after a confirmed result (REQ-CTL-007).
     /// </summary>
     /// <remarks>
-    /// File format: <c>timestamp|CheckoutStationController|value|bool|label</c>,
-    /// where value 1 = Open and 0 = Closed. Blank lines and '#' lines are skipped.
+    /// File format (docs/simulation-file-format.md): <c>CheckoutStationController|value|bool</c>,
+    /// exactly three fields, where value 1 = Open and 0 = Closed. Blank lines and '#' lines are skipped.
     /// RBAC is enforced by the MVC layer (REQ-AUTH-001); this class also refuses any
     /// command without an administrator user ID as a second line of defence.
     /// </remarks>
@@ -206,28 +206,28 @@ namespace SmartShop.Devices
             return records;
         }
 
-        /// <summary>Returns "Open"/"Closed" for a valid record, or null if it is malformed.</summary>
+        /// <summary>
+        /// Returns "Open"/"Closed" for a valid <c>device|value|unit</c> record, or null if it is
+        /// malformed: not exactly three fields, another device's key, a unit other than
+        /// <see cref="TelemetryUnit"/>, or a value other than 1 or 0.
+        /// </summary>
         private static string? TryParseRecord(string record)
         {
             string[] fields = record.Split('|');
-            if (fields.Length < 4)
+            if (fields.Length != 3)
             {
                 return null;
             }
 
-            bool hasTimestamp = DateTime.TryParse(
-                fields[0].Trim(),
-                CultureInfo.InvariantCulture,
-                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
-                out _);
-            bool isThisDevice = string.Equals(fields[1].Trim(), DeviceKey, StringComparison.OrdinalIgnoreCase);
+            bool isThisDevice = string.Equals(fields[0].Trim(), DeviceKey, StringComparison.OrdinalIgnoreCase);
+            bool hasExpectedUnit = string.Equals(fields[2].Trim(), TelemetryUnit, StringComparison.OrdinalIgnoreCase);
             bool hasValue = double.TryParse(
-                fields[2].Trim(),
+                fields[1].Trim(),
                 NumberStyles.Float,
                 CultureInfo.InvariantCulture,
                 out double value);
 
-            if (!hasTimestamp || !isThisDevice || !hasValue)
+            if (!isThisDevice || !hasExpectedUnit || !hasValue)
             {
                 return null;
             }

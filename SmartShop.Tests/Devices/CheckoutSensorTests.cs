@@ -7,7 +7,7 @@ namespace SmartShop.Tests.Devices
     public class CheckoutSensorTests
     {
         private static string Line(double value, string sensor = CheckoutSensor.SensorKey) =>
-            $"2026-11-16T09:00:00Z|{sensor}|{value.ToString(System.Globalization.CultureInfo.InvariantCulture)}|count|Checkout Activity";
+            $"{sensor}|{value.ToString(System.Globalization.CultureInfo.InvariantCulture)}|count";
 
         [Fact]
         public void ReadData_ValidRecord_PublishesValueAndMarksAvailable()
@@ -81,12 +81,14 @@ namespace SmartShop.Tests.Devices
 
         [Theory]
         [InlineData("not a record")]
-        [InlineData("2026-11-16T09:00:00Z|CheckoutSensor|abc|count|Checkout Activity")]
-        [InlineData("2026-11-16T09:00:00Z|CheckoutSensor|-1|count|Checkout Activity")]
-        [InlineData("2026-11-16T09:00:00Z|CheckoutSensor|2.5|count|Checkout Activity")]
-        [InlineData("2026-11-16T09:00:00Z|CheckoutSensor|500|count|Checkout Activity")]
-        [InlineData("2026-11-16T09:00:00Z|ShelfStockSensor|3|count|Shelf")]
-        [InlineData("yesterday|CheckoutSensor|3|count|Checkout Activity")]
+        [InlineData("CheckoutSensor|abc|count")]
+        [InlineData("CheckoutSensor|-1|count")]
+        [InlineData("CheckoutSensor|2.5|count")]
+        [InlineData("CheckoutSensor|500|count")]
+        [InlineData("ShelfStockSensor|3|count")]
+        [InlineData("CheckoutSensor|3|C")]
+        [InlineData("CheckoutSensor|3")]
+        [InlineData("2026-11-16T09:00:00Z|CheckoutSensor|3|count|Checkout Activity")]
         public void ReadData_InvalidRecord_KeepsLastKnownValueAndMarksUnavailable(string badRecord)
         {
             using var file = new TempDataFile(Line(4), badRecord);

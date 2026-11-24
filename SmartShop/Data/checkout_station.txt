@@ -1,24 +1,24 @@
-# CheckoutStationController simulated lane state (looped, REQ-SYS-010)
-# Format: timestamp|deviceId|value|unit|label   value: 1 = Open, 0 = Closed
+# SmartShop CheckoutStationController looped simulation data (REQ-SYS-010)
+# Format: device|value|unit  (docs/simulation-file-format.md)
+# value: 1 = Open, 0 = Closed
 # Admin commands from the HMI override this file until simulation is resumed.
-
-2026-11-16T09:00:00Z|CheckoutStationController|1|bool|Checkout Lane 1
-2026-11-16T09:00:05Z|CheckoutStationController|1|bool|Checkout Lane 1
-2026-11-16T09:00:10Z|CheckoutStationController|1|bool|Checkout Lane 1
-2026-11-16T09:00:15Z|CheckoutStationController|1|bool|Checkout Lane 1
-2026-11-16T09:00:20Z|CheckoutStationController|1|bool|Checkout Lane 1
-2026-11-16T09:00:25Z|CheckoutStationController|1|bool|Checkout Lane 1
-2026-11-16T09:00:30Z|CheckoutStationController|1|bool|Checkout Lane 1
-2026-11-16T09:00:35Z|CheckoutStationController|1|bool|Checkout Lane 1
-2026-11-16T09:00:40Z|CheckoutStationController|0|bool|Checkout Lane 1
-2026-11-16T09:00:45Z|CheckoutStationController|0|bool|Checkout Lane 1
-2026-11-16T09:00:50Z|CheckoutStationController|0|bool|Checkout Lane 1
-2026-11-16T09:00:55Z|CheckoutStationController|1|bool|Checkout Lane 1
-2026-11-16T09:01:00Z|CheckoutStationController|1|bool|Checkout Lane 1
-2026-11-16T09:01:05Z|CheckoutStationController|1|bool|Checkout Lane 1
-2026-11-16T09:01:10Z|CheckoutStationController|1|bool|Checkout Lane 1
-2026-11-16T09:01:15Z|CheckoutStationController|1|bool|Checkout Lane 1
-2026-11-16T09:01:20Z|CheckoutStationController|1|bool|Checkout Lane 1
-2026-11-16T09:01:25Z|CheckoutStationController|1|bool|Checkout Lane 1
-2026-11-16T09:01:30Z|CheckoutStationController|1|bool|Checkout Lane 1
-2026-11-16T09:01:35Z|CheckoutStationController|1|bool|Checkout Lane 1
+CheckoutStationController|1|bool
+CheckoutStationController|1|bool
+CheckoutStationController|1|bool
+CheckoutStationController|1|bool
+CheckoutStationController|1|bool
+CheckoutStationController|1|bool
+CheckoutStationController|1|bool
+CheckoutStationController|1|bool
+CheckoutStationController|0|bool
+CheckoutStationController|0|bool
+CheckoutStationController|0|bool
+CheckoutStationController|1|bool
+CheckoutStationController|1|bool
+CheckoutStationController|1|bool
+CheckoutStationController|1|bool
+CheckoutStationController|1|bool
+CheckoutStationController|1|bool
+CheckoutStationController|1|bool
+CheckoutStationController|1|bool
+CheckoutStationController|1|bool

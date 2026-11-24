@@ -15,7 +15,7 @@ namespace SmartShop.Devices
     /// </summary>
     /// <remarks>
     /// File format (docs/simulation-file-format.md, one record per line):
-    /// <c>timestamp|CheckoutSensor|value|count|label</c>.
+    /// <c>CheckoutSensor|value|count</c> — exactly three fields, no timestamp.
     /// Blank lines and lines starting with '#' are skipped.
     /// </remarks>
     public class CheckoutSensor : Sensor
@@ -163,28 +163,28 @@ namespace SmartShop.Devices
             return records;
         }
 
-        /// <summary>Returns the reading in a record, or null if the record is malformed.</summary>
+        /// <summary>
+        /// Returns the reading in a <c>device|value|unit</c> record, or null if the record
+        /// is malformed: not exactly three fields, another device's key, a unit other than
+        /// <see cref="DefaultUnit"/>, or a value that is not a number.
+        /// </summary>
         private static double? TryParseRecord(string record)
         {
             string[] fields = record.Split('|');
-            if (fields.Length < 4)
+            if (fields.Length != 3)
             {
                 return null;
             }
 
-            bool hasTimestamp = DateTime.TryParse(
-                fields[0].Trim(),
-                CultureInfo.InvariantCulture,
-                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
-                out _);
-            bool isThisSensor = string.Equals(fields[1].Trim(), SensorKey, StringComparison.OrdinalIgnoreCase);
+            bool isThisSensor = string.Equals(fields[0].Trim(), SensorKey, StringComparison.OrdinalIgnoreCase);
+            bool hasExpectedUnit = string.Equals(fields[2].Trim(), DefaultUnit, StringComparison.OrdinalIgnoreCase);
             bool hasValue = double.TryParse(
-                fields[2].Trim(),
+                fields[1].Trim(),
                 NumberStyles.Float,
                 CultureInfo.InvariantCulture,
                 out double value);
 
-            return hasTimestamp && isThisSensor && hasValue ? value : null;
+            return isThisSensor && hasExpectedUnit && hasValue ? value : null;
         }
 
         private void MarkUnavailable(string reason)
