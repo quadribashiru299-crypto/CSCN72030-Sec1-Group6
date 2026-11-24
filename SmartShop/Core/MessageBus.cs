@@ -9,9 +9,10 @@ namespace SmartShop.Core
     {
         private readonly List<Action<TelemetryPayload>> Subscribers = new List<Action<TelemetryPayload>>();
 
-        public void Subscribe(Action<TelemetryPayload> getMessageMethod)
+        public void Subscribe(Action<TelemetryPayload> getMessageMethod, string subsriberName)
         {
             Subscribers.Add(getMessageMethod);
+            Console.WriteLine($"Subscriber {subsriberName} added.");
         }
 
         public void Publish(TelemetryPayload payload)

@@ -9,28 +9,42 @@ namespace SmartShop
 {
     internal class MessageReceiver
     {
-        public TelemetryPayload LastReceivedTelemetryTempSensor { get; set; }
-        public MessageReceiver()
+        public string name;
+        public MessageReceiver(string name = "Bob the Message Receiver")
         {
-            LastReceivedTelemetryTempSensor = null;
+            this.name = name;
+        }
+        
+        public void printTelemetry(TelemetryPayload payload)
+        {
+            Console.WriteLine("Printing telemetry:");
+            Console.WriteLine($"[HMI Receiver] Device #{payload.DeviceId}" +
+                $"\nValue: {payload.Value} {payload.Unit}" +
+                $"\nStatus: {payload.Status}" +
+                $"\nAvailable: {payload.IsDataAvailable}" +
+                $"\nTimestamp: {payload.Timestamp:HH:mm:ss}"
+                );
+            Console.WriteLine("---------------------\n");
+
         }
 
-        //Tahle funkce se volá z MessageBus jenom
+        //this function is given to the message bus and is called only from the message bus
         public void ReceiveTelemetry(TelemetryPayload payload)
         {
-            LastReceivedTelemetryTempSensor = payload;
-
-            if (LastReceivedTelemetryTempSensor == null) {
+            if (payload == null) {
                 Console.WriteLine("Telemetry message not found.");
                 return;
             }
 
-            //print telemetry payload
-            Console.WriteLine($"[HMI Receiver] Device #{payload.DeviceId} | " +
-                              $"Value: {payload.Value} {payload.Unit} | " +
-                              $"Status: {payload.Status} | " +
-                              $"Available: {payload.IsDataAvailable} | " +
-                              $"Timestamp: {payload.Timestamp:HH:mm:ss}");
+            Console.WriteLine("Telemetry received.");
+            printTelemetry(payload);
+
+            ////print telemetry payload
+            //Console.WriteLine($"[HMI Receiver] Device #{payload.DeviceId} | " +
+            //                  $"Value: {payload.Value} {payload.Unit} | " +
+            //                  $"Status: {payload.Status} | " +
+            //                  $"Available: {payload.IsDataAvailable} | " +
+            //                  $"Timestamp: {payload.Timestamp:HH:mm:ss}");
         }
 
     }

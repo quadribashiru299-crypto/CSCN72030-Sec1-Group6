@@ -84,14 +84,14 @@ namespace SmartShop
 {
     internal class Program
     {
-        static void Main(string[] args)
+        public void Main(string[] args)
         {
             MessageBus bus = new MessageBus();
 
             MessageReceiver receiver = new MessageReceiver();
 
             //message receiver subscribes to message bus
-            bus.Subscribe(receiver.ReceiveTelemetry);
+            bus.Subscribe(receiver.ReceiveTelemetry, receiver.name);
 
             MockTempSensor sensor = new MockTempSensor
             {
