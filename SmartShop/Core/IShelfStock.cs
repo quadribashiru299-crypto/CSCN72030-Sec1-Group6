@@ -1,15 +1,15 @@
 namespace SmartShop.Core
 {
     /// <summary>
-    /// What the kiosk needs from ShelfStockSensor (REQ-KSK-002). ShelfStockSensor
-    /// implements this so the kiosk does not depend on its concrete class.
+    /// Read/write access to the shelf inventory, used by the kiosk purchase
+    /// simulator (T24) to take stock away when a sale happens.
     /// </summary>
     public interface IShelfStock
     {
         /// <summary>
-        /// Removes <paramref name="quantity"/> units of an item from the shelf.
-        /// Returns false and an error message (e.g. unknown item, not enough stock)
-        /// without changing stock if the purchase cannot be applied.
+        /// Removes <paramref name="quantity"/> units of <paramref name="itemId"/>.
+        /// Returns false and fills <paramref name="errorMessage"/> when the item is
+        /// unknown, the quantity is not positive, or there is not enough stock.
         /// </summary>
         bool TryRemoveStock(string itemId, int quantity, out string? errorMessage);
     }
